@@ -1,4 +1,6 @@
-# travlr-backend
+# Unified Travlr Application with React Frontend/Node backend & Solidity Contracts
+
+# travlr-backend (ganache, truffle, solidity)
 
 #### Steps to deploy contracts
 1. Deploy `Travlr` using acc[0]
@@ -12,7 +14,7 @@
 9. Call other functions :)
 
 
-# travlr-node
+# travlr-node (react, node)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

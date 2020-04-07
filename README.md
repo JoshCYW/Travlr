@@ -1,5 +1,34 @@
 # Unified Travlr Application with React Frontend/Node backend & Solidity Contracts
 
+## backend 
+
+run Ganache
+``ganache-cli``
+
+run truffle migrate 
+``cd <backend folder>``
+``truffle migrate``
+
+## node
+
+### if first time
+``npm install``
+
+### then
+``npm start``
+
+
+## other commands
+
+generate build files to update config.js
+``truffle build``
+
+
+
+
+
+
+
 ## backend (ganache, truffle, solidity)
 
 #### Steps to deploy contracts

@@ -82,8 +82,11 @@ export const App = () => {
       setTravlr(travlrContract)
       console.log(travlr)
 
-      const check = await travlrContract.methods.owner().call()
-      console.log(check)
+      const check = await travlrContract.methods.check().call()
+      console.log("check variable in Travlr Contract: " ,check)
+      
+      const owner = await travlrContract.methods.owner().call()
+      console.log("Owner of Travlr Contract: " ,owner)
 
       //create 3 government contracts and store in objects
       //GovernmentOwner = accounts[1]

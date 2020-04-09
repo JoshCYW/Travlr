@@ -10,11 +10,10 @@ contract Travlr is Ownable {
   Roles.Role internal _ethPassport;
   Roles.Role internal _immigration;
   Roles.Role internal _hotel;
+  
   uint16 public check;
-  
-  event log(address logaddress);
-  
   address travlrOwner;
+
   constructor() public {
       travlrOwner = msg.sender;
       check = 1;
@@ -26,7 +25,6 @@ contract Travlr is Ownable {
     government.transferOwnership(_govtOwnerAddress);
     //add the contract to the role
     _government.add(address(government));
-    emit log(address(government));
     //returns government contract address
     return address(government);
   }

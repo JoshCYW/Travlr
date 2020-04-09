@@ -8,14 +8,18 @@ import "./EthPassport.sol";
 
 contract Hotel is Ownable {
   Government public government;
-  //implemented in constructor later
+  string hotelName;
   uint256 lat;
   uint256 long;
-  event logmessage(string logmessage);
+  address hotelOwner;
   
-  constructor () public {
+  constructor (string memory _hotelName, uint256 _lat, uint256 _long) public {
     //makes parent the first owner who created the contract not new owner who took over contract
     government = Government(owner());
+    hotelName = _hotelName;
+    lat = _lat;
+    long = _long;
+    hotelOwner = msg.sender;
   }
   
   function getParentAddress() public view returns (address) {
@@ -26,9 +30,13 @@ contract Hotel is Ownable {
     return government.getCountry();
   }
   
-  function updateEthPassport(address _ethPassportAddress, EthPassport.Direction _direction, uint8 _temp) public {
+  function isHealthy(address _ethPassportAddress) public returns (bool) {
+    EthPassport ethPassport = EthPassport(_ethPassportAddress);
+    return ethPassport.isHealthy();
+  }
+  
+  function updateEthPassport(address _ethPassportAddress, EthPassport.Direction _direction, uint16 _temp) public onlyOwner {
     EthPassport ethPassport = EthPassport(_ethPassportAddress);
     ethPassport.updateTravelHistory(_direction, _temp);
-    emit logmessage("Eth Passport Updated");
   }
 }

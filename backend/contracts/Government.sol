@@ -11,11 +11,8 @@ import "./Immigration.sol";
 contract Government is Ownable {
   Travlr public travlr; //parent class
   uint16 country; //Country code uint16 (e.g; SG = 65)
-
-  event log(address logaddress);
-  
   address governmentOwner;
-  //init government
+  
   constructor(uint16 _country) public {
     //makes parent the first owner who created the contract not new owner who took over contract
     travlr = Travlr(owner());
@@ -23,34 +20,32 @@ contract Government is Ownable {
     governmentOwner = msg.sender;
   }
   
-  function createEthPassport(address _ethPassportOwnerAddress) public onlyOwner returns (address) {
+  function createEthPassport(address _ethPassportOwnerAddress, string memory _passportNum) public onlyOwner returns (address) {
+    //require(, "EthPassport with this Address Already Exists");
     //Create ethPassport contract with constructor variables
-    EthPassport ethPassport = new EthPassport();
+    EthPassport ethPassport = new EthPassport(_passportNum);
     ethPassport.transferOwnership(_ethPassportOwnerAddress);
     //add the contract to the role
     travlr.addEthPassportRole(address(ethPassport));
-    emit log(address(ethPassport));
     //returns government contract address
     return address(ethPassport);
   }
   
-  function assignHotel(address _hotelOwnerAddress) public onlyOwner returns (address) {
+  function assignHotel(address _hotelOwnerAddress, string memory _hotelName, uint256 _lat, uint256 _long) public onlyOwner returns (address) {
     //Create hotel contract with constructor variables
-    Hotel hotel = new Hotel();
+    Hotel hotel = new Hotel(_hotelName, _lat, _long);
     hotel.transferOwnership(_hotelOwnerAddress);
     //add the contract to the role
     travlr.addHotelRole(address(hotel));
-    emit log(address(hotel));
     return address(hotel); //returns hotel contract address
   }
   
-  function assignImmmigration(address _immigrationOwnerAddress) public onlyOwner returns (address) {
+  function assignImmmigration(address _immigrationOwnerAddress, string memory _portName, uint256 _lat, uint256 _long) public onlyOwner returns (address) {
     //Create immigration contract with constructor variables
-    Immigration immigration = new Immigration();
+    Immigration immigration = new Immigration(_portName, _lat, _long);
     immigration.transferOwnership(_immigrationOwnerAddress);
     //add the contract to the role
     travlr.addImmigrationRole(address(immigration));
-    emit log(address(immigration));
     return address(immigration); //returns immigration contract address
   }
   
@@ -64,7 +59,16 @@ contract Government is Ownable {
     return ethPassport.getHeadId();
   }
   
-  //getters
+  function isHealthy(address _ethPassportAddress) public returns (bool) {
+    EthPassport ethPassport = EthPassport(_ethPassportAddress);
+    return ethPassport.isHealthy();
+  }
+  
+  function setHealth(address _ethPassportAddress, bool _healthy) public onlyOwner {
+    EthPassport ethPassport = EthPassport(_ethPassportAddress);
+    return ethPassport.setHealth(_healthy);
+  }
+
   function getParentAddress() public view returns (address) {
     return address(travlr);
   }

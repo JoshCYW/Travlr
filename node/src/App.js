@@ -1,5 +1,5 @@
 
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { ConnectedRouter } from 'connected-react-router';
@@ -28,7 +28,9 @@ import { Immigration } from './components/Immigration';
 import { Government } from './components/Government';
 
 import Web3 from 'web3'
-import {TRAVLR_ADDRESS, TRAVLR_ABI} from './config'
+import { TRAVLR_ADDRESS, TRAVLR_ABI } from './config'
+import { GOVT_ABI } from './govtConfig';
+var TruffleContract = require('@truffle/contract')
 
 const drawerWidth = 240;
 
@@ -65,54 +67,41 @@ export const App = () => {
 
   useEffect(() => {
     async function loadBlockChainData() {
-      //Web3 is used to talk to the smart contract and we need both
-      //the abi and address of the smart contract in order to do that
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
-      const network = await web3.eth.net.getNetworkType()
-      console.log("network: ", network)
-      const accounts = await web3.eth.getAccounts()
-      console.log("account: ", accounts[0])
-      //Travlr App Owner = accounts[0]
-      setAccount(accounts[0])
-      const travlrContract = new web3.eth.Contract(TRAVLR_ABI, TRAVLR_ADDRESS)
-      console.log("Travlr: ", travlrContract)
+      const web3 = new Web3("http://localhost:8545")
+      let accounts = await web3.eth.getAccounts()
 
-      //not sure how to store the contract as state.
+      var provider = new Web3.providers.HttpProvider("http://localhost:8545");
 
-      setTravlr(travlrContract)
-      console.log(travlr)
+      var TravelrTruffleInstance = TruffleContract({ abi: TRAVLR_ABI })
+      var GovtTruffleInstance = TruffleContract({ abi: GOVT_ABI })
 
-      const check = await travlrContract.methods.check().call()
-      console.log("check variable in Travlr Contract: " ,check)
-      
-      const owner = await travlrContract.methods.owner().call()
-      console.log("Owner of Travlr Contract: " ,owner)
+      TravelrTruffleInstance.setProvider(provider)
+      GovtTruffleInstance.setProvider(provider)
 
-      //create 3 government contracts and store in objects
-      //GovernmentOwner = accounts[1]
-      //const govtContract1 = travlrContract.methods.assignGovernment(accounts[1], 65)
+      var tvInstance = null
+      var govInstance = null
 
-      //Travlr App Owner = accounts[2]
-      //const govtContract2 = travlrContract.methods.assignGovernment(accounts[2], 852)
-
-      //create 1 hotel contract and store in object
-      //const govtContract3 = travlrContract.methods.assignGovernment(accounts[5], 1)
-
-      //create 1 immigration contract and store in object
-      //const govtContract3 = travlrContract.methods.assignGovernment(accounts[6], 1)
-
-      //when someone enters country
-      //immigrationContract.methods.updateEthPassport(ethPassportAddress, 1, 380);
-      //new object = ethPassportAddress, 1, 380;
-      //database.add(object);
-
-      //const isHealthy = immigrationContract.methods.getHealthy(ethPassportAddress);
-
+      // replace TRAVLR_ADDRESS with whatever ur initial contract add is
+      TravelrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
+        tvInstance = instance
+        console.log(instance)
+        return instance.assignGovernment(accounts[1], 65, {
+          from: accounts[0]
+        })
+      }).then(result => {
+        console.log('address: ', result.receipt.logs[0].address)
+        GovtTruffleInstance.at(result.receipt.logs[0].address).then(instance => {
+          console.log(instance)
+          return instance.getGovernmentOwner({
+            from: accounts[1]
+          })
+        }).then(result => {
+          console.log(result)
+        })
+      })
     }
     loadBlockChainData();
   }, []); // Or [] if effect doesn't need props or state
-
-
 
 
   const [tab, setTab] = useState('Hotel')

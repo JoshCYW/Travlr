@@ -13,7 +13,7 @@ module.exports = function(deployer, network, accounts) {
 
   return deployer
     .then(() => {
-        return deployer.deploy(Travlr, {from: accounts[1]});
+        return deployer.deploy(Travlr, {from: accounts[0]});
     }).then((_inst) => {
         travlrInstance = _inst;
         console.log("Travlr contract at address = " + travlrInstance.address);

@@ -7,10 +7,13 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case CREATE_HOTEL:
-            return {
-                ...state,
-                hotelList: state.hotelList.concat(action.payload),
+            const { hotelAddress } = action.payload
+            state.hotelList.push(hotelAddress)
+            state = {
+                ...state
             }
+            console.log(state)
+            return state
         default:
             return state;
     }

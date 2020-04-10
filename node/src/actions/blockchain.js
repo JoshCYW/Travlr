@@ -5,6 +5,7 @@ import { PASSPORT_ABI } from '../ethPassportConfig'
 import { IMMIGRATION_ABI } from '../immigrationConfig'
 
 import { LOAD_BLOCKCHAIN_DATA, PRELOAD_GOVERNMENT } from '../constants';
+import { HOTEL_ABI } from '../hotelConfig';
 
 var TruffleContract = require('@truffle/contract')
 
@@ -16,11 +17,13 @@ export const loadBlockChainData = () => async (dispatch) => {
     var govtTruffleInstance = TruffleContract({ abi: GOVT_ABI });
     var ethPassportTruffleInstance = TruffleContract({ abi: PASSPORT_ABI });
     var immigrationTruffleInstance = TruffleContract({ abi: IMMIGRATION_ABI });
+    var hotelTruffleInstance = TruffleContract({ abi: HOTEL_ABI });
 
     travlrTruffleInstance.setProvider(provider);
     govtTruffleInstance.setProvider(provider);
     ethPassportTruffleInstance.setProvider(provider)
     immigrationTruffleInstance.setProvider(provider)
+    hotelTruffleInstance.setProvider(provider)
 
     const payload = {};
     payload['accounts'] = accounts;
@@ -28,10 +31,10 @@ export const loadBlockChainData = () => async (dispatch) => {
     payload['govtTruffleInstance'] = govtTruffleInstance;
     payload['ethPassportTruffleInstance'] = ethPassportTruffleInstance;
     payload['immigrationTruffleInstance'] = immigrationTruffleInstance;
+    payload['hotelTruffleInstance'] = hotelTruffleInstance;
 
     // Initialize 2 Governments: Singapore and United States with their respective caller IDs
     // Store Respective Contract Addresses in store
-
 
     const createSgGov = new Promise(function (resolve, reject) {
         travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {

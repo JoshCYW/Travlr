@@ -8,7 +8,8 @@ const initialState = {
   travlrTruffleInstance: {},
   govtTruffleInstance: {},
   ethPassportTruffleInstance: {},
-  immigrationTruffleInstance: {}
+  immigrationTruffleInstance: {},
+  hotelTruffleInstance: {}
 };
 
 export default function (state = initialState, action) {
@@ -20,7 +21,8 @@ export default function (state = initialState, action) {
         travlrTruffleInstance: action.payload.travlrTruffleInstance,
         govtTruffleInstance: action.payload.govtTruffleInstance,
         ethPassportTruffleInstance: action.payload.ethPassportTruffleInstance,
-        immigrationTruffleInstance: action.payload.immigrationTruffleInstance
+        immigrationTruffleInstance: action.payload.immigrationTruffleInstance,
+        hotelTruffleInstance: action.payload.hotelTruffleInstance
       };
 
     default:

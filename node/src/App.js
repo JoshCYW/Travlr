@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState, component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './history';
 import './App.css';
@@ -18,13 +17,8 @@ import { Box } from '@material-ui/core';
 import { Hotel } from './components/Hotel';
 import { Immigration } from './components/Immigration';
 import { Government } from './components/Government';
-import store from './store';
 import { loadBlockChainData } from './actions/blockchain';
-import { connect } from 'react-redux';
-import Web3 from 'web3'
-import { TRAVLR_ADDRESS, TRAVLR_ABI } from './config'
-import { GOVT_ABI } from './govtConfig';
-var TruffleContract = require('@truffle/contract')
+import { useDispatch } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -53,51 +47,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const App = () => {
-  store.dispatch(loadBlockChainData());
-  const [account, setAccount] = useState("");
-  const [travlr, setTravlr] = useState();
+  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   this.props.loadBlockChainData();
-    // async function loadBlockChainData() {
-    //   const web3 = new Web3("http://localhost:8545")
-    //   let accounts = await web3.eth.getAccounts()
-
-    //   var provider = new Web3.providers.HttpProvider("http://localhost:8545");
-
-    //   var TravelrTruffleInstance = TruffleContract({ abi: TRAVLR_ABI })
-    //   var GovtTruffleInstance = TruffleContract({ abi: GOVT_ABI })
-
-    //   TravelrTruffleInstance.setProvider(provider)
-    //   GovtTruffleInstance.setProvider(provider)
-
-    //   var tvInstance = null
-    //   var govInstance = null
-
-    //   // replace TRAVLR_ADDRESS with whatever ur initial contract add is
-    //   TravelrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
-    //     tvInstance = instance
-    //     console.log(instance)
-    //     return instance.assignGovernment(accounts[1], 65, {
-    //       from: accounts[0]
-    //     })
-    //   }).then(result => {
-    //     console.log('address: ', result.receipt.logs[0].address)
-    //     GovtTruffleInstance.at(result.receipt.logs[0].address).then(instance => {
-    //       console.log(instance)
-    //       return instance.getGovernmentOwner({
-    //         from: accounts[1]
-    //       })
-    //     }).then(result => {
-    //       console.log(result)
-    //     })
-    //   })
-    // }
-    // loadBlockChainData();
-  // }, []); // Or [] if effect doesn't need props or state
+  useEffect(() => {
+    dispatch(loadBlockChainData())
+  }, []);
 
 
-  const [tab, setTab] = useState('Hotel')
+  const [tab, setTab] = useState('Government')
   const [component, setComponent] = useState({
     'Hotel': <Hotel drawerWidth={drawerWidth} />,
     'Immigration': <Immigration drawerWidth={drawerWidth} />,
@@ -113,7 +70,6 @@ export const App = () => {
   return (
     <ConnectedRouter history={history}>
       <div className="App">
-        <p>Your account is: {account}</p>
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -147,6 +103,6 @@ export const App = () => {
         </main>
       </div>
     </ConnectedRouter>
-    );
-  };
+  );
+};
 

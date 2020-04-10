@@ -1,0 +1,9 @@
+// blockchain 
+export const LOAD_BLOCKCHAIN_DATA = 'LOAD_BLOCKCHAIN_DATA'
+
+// immigration
+export const UPDATE_TRAVEL_HISTORY = 'UPDATE_TRAVEL_HISTORY';
+export const RETRIEVE_TRAVEL_HISTORY = 'RETRIEVE_TRAVEL_HISTORY';
+
+// government
+export const PRELOAD_GOVERNMENT = 'PRELOAD_GOVERNMENT'

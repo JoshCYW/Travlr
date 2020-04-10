@@ -1,7 +1,5 @@
 import immigrations from '../api/immigrations';
-
-const UPDATE_TRAVEL_HISTORY = 'UPDATE_TRAVEL_HISTORY';
-const RETRIEVE_TRAVEL_HISTORY = 'RETRIEVE_TRAVEL_HISTORY';
+import { RETRIEVE_TRAVEL_HISTORY, UPDATE_TRAVEL_HISTORY } from '../constants';
 
 // TBD
 // export const updateTravelHistory = () => (dispatch) => {
@@ -29,19 +27,18 @@ const RETRIEVE_TRAVEL_HISTORY = 'RETRIEVE_TRAVEL_HISTORY';
 // };
 
 
-
 //placeholder
 const response = {
     "data": {
-        "travelHistories":     
-        [
-            {
-                "travelHistoryId": 1,
-                "country": "Taiwan",
-                "name": "Corona",
-                "date": "2/2/20"
-            }
-        ] 
+        "travelHistories":
+            [
+                {
+                    "travelHistoryId": 1,
+                    "country": "Taiwan",
+                    "name": "Corona",
+                    "date": "2/2/20"
+                }
+            ]
     }
 }
 export const updateTravelHistory = () => (dispatch) => {
@@ -56,9 +53,4 @@ export const getTravelHistory = () => (dispatch) => {
         type: RETRIEVE_TRAVEL_HISTORY,
         payload: response.data
     });
-};
-
-export default {
-    UPDATE_TRAVEL_HISTORY,
-    RETRIEVE_TRAVEL_HISTORY
 };

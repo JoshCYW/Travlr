@@ -1,4 +1,4 @@
-import actions from '../actions/immigrations';
+import { UPDATE_TRAVEL_HISTORY, RETRIEVE_TRAVEL_HISTORY } from "../constants";
 
 const initialState = {
   travelHistories: [],
@@ -7,12 +7,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.UPDATE_TRAVEL_HISTORY:
+    case UPDATE_TRAVEL_HISTORY:
       return {
         ...state,
         //tbd
       };
-    case actions.RETRIEVE_TRAVEL_HISTORY:
+    case RETRIEVE_TRAVEL_HISTORY:
       return {
         ...state,
         travelHistories: action.payload.travelHistories,

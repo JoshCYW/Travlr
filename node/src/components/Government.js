@@ -8,15 +8,14 @@ import HealingIcon from '@material-ui/icons/Healing';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import TravelHistoryPage from '../immigrations/pages/travelHistory'
 import { PassportForm } from './PassportForm';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,13 +27,20 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
         height: 50
     },
+    formControl: {
+        margin: theme.spacing(1),
+        width: '28%',
+        height: '100%'
+    },
     table: {
         minWidth: 650,
     },
 }));
 
 export const Government = (props) => {
+    const { governments } = useSelector(state => state.government)
     const [isDisabled, setDisabled] = useState(true)
+    const [govt, setGovt] = useState('')
     const [value, setValue] = useState('')
     const [isVisible, setVisibility] = useState(false)
     const classes = useStyles();
@@ -59,20 +65,36 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
                 <Box className={classes.root} style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-                    <TextField style={{ width: '83%' }} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <TextField style={{ width: '50%' }} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <Button
                         onClick={() => setVisibility(true)}
-                        variant="contained"
+                        variant="outlined"
                         color='primary'
-                        style={{ backgroundColor: 'green', width: '15%' }}
+                        style={{ width: '18%', height: 56 }}
                         startIcon={<AddIcon />}
                     >
                         Create Passport
                     </Button>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-outlined-label">Government</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={govt}
+                            onChange={(event) => setGovt(event.target.value)}
+                            label="Government Contract Address"
+                        >
+                            {
+                                governments.map(item => {
+                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
-                <Box style={{ width: '50%', }}>
+                <Box style={{ width: '80%', }}>
                     {/* buttons */}
                     <Button
                         onClick={() => _checkIn()}

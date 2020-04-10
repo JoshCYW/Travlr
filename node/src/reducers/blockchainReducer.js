@@ -1,4 +1,5 @@
 import actions from '../actions/blockchain';
+import { LOAD_BLOCKCHAIN_DATA } from '../constants';
 
 const initialState = {
   travelHistories: [],
@@ -10,7 +11,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.LOAD_BLOCKCHAIN_DATA:
+    case LOAD_BLOCKCHAIN_DATA:
       return {
         ...state,
         accounts: action.payload.accounts,

@@ -2,6 +2,7 @@ import Web3 from 'web3'
 import { TRAVLR_ABI, TRAVLR_ADDRESS } from '../config'
 import { GOVT_ABI } from '../govtConfig';
 import { PASSPORT_ABI } from '../ethPassportConfig'
+import { IMMIGRATION_ABI } from '../immigrationConfig'
 
 import { LOAD_BLOCKCHAIN_DATA, PRELOAD_GOVERNMENT } from '../constants';
 
@@ -14,17 +15,19 @@ export const loadBlockChainData = () => async (dispatch) => {
     var travlrTruffleInstance = TruffleContract({ abi: TRAVLR_ABI });
     var govtTruffleInstance = TruffleContract({ abi: GOVT_ABI });
     var ethPassportTruffleInstance = TruffleContract({ abi: PASSPORT_ABI });
+    var immigrationTruffleInstance = TruffleContract({ abi: IMMIGRATION_ABI });
 
     travlrTruffleInstance.setProvider(provider);
     govtTruffleInstance.setProvider(provider);
     ethPassportTruffleInstance.setProvider(provider)
-
+    immigrationTruffleInstance.setProvider(provider)
 
     const payload = {};
     payload['accounts'] = accounts;
     payload['travlrTruffleInstance'] = travlrTruffleInstance;
     payload['govtTruffleInstance'] = govtTruffleInstance;
     payload['ethPassportTruffleInstance'] = ethPassportTruffleInstance;
+    payload['immigrationTruffleInstance'] = immigrationTruffleInstance;
 
     // Initialize 2 Governments: Singapore and United States with their respective caller IDs
     // Store Respective Contract Addresses in store

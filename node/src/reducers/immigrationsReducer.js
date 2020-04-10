@@ -1,8 +1,9 @@
-import { UPDATE_TRAVEL_HISTORY, RETRIEVE_TRAVEL_HISTORY } from "../constants";
+import { UPDATE_TRAVEL_HISTORY, RETRIEVE_TRAVEL_HISTORY, CREATE_IMMIGRATION_PORT } from "../constants";
 
 const initialState = {
   travelHistories: [],
   travelHistory: {},
+  immigrationList: []
 };
 
 export default function (state = initialState, action) {
@@ -17,7 +18,14 @@ export default function (state = initialState, action) {
         ...state,
         travelHistories: action.payload.travelHistories,
       };
-
+    case CREATE_IMMIGRATION_PORT:
+      const { immigrationAddress } = action.payload
+      state.immigrationList.push(immigrationAddress)
+      state = {
+        ...state
+      }
+      console.log(state)
+      return state
     default:
       return state;
   }

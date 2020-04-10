@@ -16,6 +16,7 @@ import Select from '@material-ui/core/Select';
 import TravelHistoryPage from '../immigrations/pages/travelHistory'
 import { PassportForm } from './PassportForm';
 import { useSelector } from 'react-redux';
+import { ImmigrationForm } from './ImmigrationForm';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -50,6 +51,7 @@ export const Government = (props) => {
     const [passport, setPassport] = useState('')
     const [status, setStatus] = useState(false)
     const [isVisible, setVisibility] = useState(false)
+    const [isImmigrationFormVisible, setImmigrationVisibility] = useState(false)
     const classes = useStyles();
 
     useEffect(() => {
@@ -100,6 +102,9 @@ export const Government = (props) => {
         <Box style={{ paddingTop: 20, marginLeft: props.drawerWidth, height: window.innerHeight }}>
             {
                 isVisible && <PassportForm isVisible={isVisible} setVisibility={setVisibility} govt={govt} />
+            }
+            {
+                isImmigrationFormVisible && <ImmigrationForm isVisible={isImmigrationFormVisible} setVisibility={setImmigrationVisibility} govt={govt} />
             }
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
@@ -175,10 +180,21 @@ export const Government = (props) => {
                         variant="contained"
                         color="secondary"
                         className={classes.button}
+                        disabled={passport.length == 0}
                         style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
                         startIcon={<SearchIcon />}
                     >
                         Get Travel History
+                    </Button>
+                    <Button
+                        onClick={() => setImmigrationVisibility(true)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<AddIcon />}
+                        disabled={govt.length == 0}
+                    >
+                        Create Immigration
                     </Button>
                     <p>Status: {status == false ? 'Not Healthy' : 'Healthy'}</p>
                 </Box>
@@ -189,6 +205,6 @@ export const Government = (props) => {
                     <TravelHistoryPage />
                 </Box>
             </Box>
-        </Box>
+        </Box >
     )
 }

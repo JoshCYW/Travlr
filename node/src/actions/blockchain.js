@@ -14,7 +14,7 @@ export const loadBlockChainData = () => async (dispatch) => {
     var travlrTruffleInstance = TruffleContract({ abi: TRAVLR_ABI });
     var govtTruffleInstance = TruffleContract({ abi: GOVT_ABI });
     var ethPassportTruffleInstance = TruffleContract({ abi: PASSPORT_ABI });
-    
+
     travlrTruffleInstance.setProvider(provider);
     govtTruffleInstance.setProvider(provider);
     ethPassportTruffleInstance.setProvider(provider)
@@ -62,10 +62,15 @@ export const loadBlockChainData = () => async (dispatch) => {
 
     Promise.all([createSgGov, createUsGov]).then(function (values) {
         console.log(values)
+        let mapping = {}
+        for (let i = 1; i <= values.length; i++) {
+            mapping[values[i - 1]] = accounts[i]
+        }
         dispatch({
             type: PRELOAD_GOVERNMENT,
             payload: {
-                governments: values
+                governments: values,
+                mapping
             }
         })
     })

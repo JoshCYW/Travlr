@@ -2,22 +2,24 @@ import { PRELOAD_GOVERNMENT, CREATE_PASSPORT } from "../constants";
 
 const initialState = {
     governments: [],
-    passportBook: {}
+    passportBook: {},
+    mapping: {}
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case PRELOAD_GOVERNMENT:
-            const { governments } = action.payload
+            const { governments, mapping } = action.payload
             let ppb = {}
             for (let i = 0; i < governments.length; i++) {
                 ppb[governments[i]] = []
             }
-            console.log(ppb)
             state = {
                 governments: action.payload.governments,
-                passportBook: ppb
+                passportBook: ppb,
+                mapping
             }
+            console.log(state)
             return state
         case CREATE_PASSPORT:
             const { passportAddress, government } = action.payload

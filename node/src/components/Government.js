@@ -43,8 +43,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Government = (props) => {
-    const { governments, passportBook } = useSelector(state => state.government)
-    const { ethPassportTruffleInstance } = useSelector(state => state.blockchain)
+    const { governments, passportBook, mapping } = useSelector(state => state.government)
+    const { ethPassportTruffleInstance, govtTruffleInstance } = useSelector(state => state.blockchain)
     const [isDisabled, setDisabled] = useState(true)
     const [govt, setGovt] = useState('')
     const [passport, setPassport] = useState('')
@@ -55,27 +55,45 @@ export const Government = (props) => {
     useEffect(() => {
         if (passport.length > 0) {
             console.log('firing correctly')
-            ethPassportTruffleInstance.at(passport).then(instance => {
-                return instance.isHealthy()
-            }).then(result => {
-                console.log(result)
-                setStatus(result)
-            }).catch(error => {
-                console.log(error)
-            })
+            checkHealth()
         }
     }, [passport])
 
-    const flagHealthy = () => {
+    const flagHealth = (health) => {
+        govtTruffleInstance.at(govt).then(instance => {
+            return instance.owner()
+        }).then(result => {
+            console.log('owner: ', result)
+        })
 
-    }
-
-    const flagUnhealthy = () => {
-
+        ethPassportTruffleInstance.at(passport).then(instance => {
+            console.log('Selected Government: ', mapping[govt])
+            return instance.setHealth(health, {
+                from: mapping[govt] //send from respective ACCOUNT
+            }).then(result => {
+                console.log(result)
+                checkHealth()
+            }).catch(error => {
+                console.log(error)
+            })
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     const getHistory = () => {
 
+    }
+
+    const checkHealth = () => {
+        ethPassportTruffleInstance.at(passport).then(instance => {
+            return instance.isHealthy()
+        }).then(result => {
+            console.log(result)
+            setStatus(result)
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     return (
@@ -133,7 +151,7 @@ export const Government = (props) => {
                 <Box style={{ width: '80%', }}>
                     {/* buttons */}
                     <Button
-                        onClick={() => flagHealthy()}
+                        onClick={() => flagHealth(false)}
                         variant="contained"
                         color="secondary"
                         className={classes.button}
@@ -143,7 +161,7 @@ export const Government = (props) => {
                         Flag Unhealthy
                     </Button>
                     <Button
-                        onClick={() => flagUnhealthy()}
+                        onClick={() => flagHealth(true)}
                         variant="contained"
                         color="primary"
                         className={classes.button}

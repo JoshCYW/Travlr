@@ -7,6 +7,7 @@ const initialState = {
   accounts: [],
   travlrTruffleInstance: {},
   govtTruffleInstance: {},
+  ethPassportTruffleInstance: {}
 };
 
 export default function (state = initialState, action) {
@@ -17,6 +18,7 @@ export default function (state = initialState, action) {
         accounts: action.payload.accounts,
         travlrTruffleInstance: action.payload.travlrTruffleInstance,
         govtTruffleInstance: action.payload.govtTruffleInstance,
+        ethPassportTruffleInstance: action.payload.ethPassportTruffleInstance,
       };
 
     default:

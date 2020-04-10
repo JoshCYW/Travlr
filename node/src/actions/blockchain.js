@@ -1,6 +1,8 @@
 import Web3 from 'web3'
 import { TRAVLR_ABI, TRAVLR_ADDRESS } from '../config'
 import { GOVT_ABI } from '../govtConfig';
+import { PASSPORT_ABI } from '../ethPassportConfig'
+
 import { LOAD_BLOCKCHAIN_DATA, PRELOAD_GOVERNMENT } from '../constants';
 
 var TruffleContract = require('@truffle/contract')
@@ -11,12 +13,18 @@ export const loadBlockChainData = () => async (dispatch) => {
     var provider = new Web3.providers.HttpProvider("http://localhost:8545");
     var travlrTruffleInstance = TruffleContract({ abi: TRAVLR_ABI });
     var govtTruffleInstance = TruffleContract({ abi: GOVT_ABI });
+    var ethPassportTruffleInstance = TruffleContract({ abi: PASSPORT_ABI });
+    
     travlrTruffleInstance.setProvider(provider);
     govtTruffleInstance.setProvider(provider);
+    ethPassportTruffleInstance.setProvider(provider)
+
+
     const payload = {};
     payload['accounts'] = accounts;
     payload['travlrTruffleInstance'] = travlrTruffleInstance;
     payload['govtTruffleInstance'] = govtTruffleInstance;
+    payload['ethPassportTruffleInstance'] = ethPassportTruffleInstance;
 
     // Initialize 2 Governments: Singapore and United States with their respective caller IDs
     // Store Respective Contract Addresses in store

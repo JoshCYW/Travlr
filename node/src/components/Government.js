@@ -27,7 +27,12 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
         height: 50
     },
-    formControl: {
+    formControl1: {
+        margin: theme.spacing(1),
+        width: '50%',
+        height: '100%'
+    },
+    formControl2: {
         margin: theme.spacing(1),
         width: '28%',
         height: '100%'
@@ -38,34 +43,49 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Government = (props) => {
-    const { governments } = useSelector(state => state.government)
+    const { governments, passportBook } = useSelector(state => state.government)
     const [isDisabled, setDisabled] = useState(true)
     const [govt, setGovt] = useState('')
-    const [value, setValue] = useState('')
+    const [passport, setPassport] = useState('')
     const [isVisible, setVisibility] = useState(false)
     const classes = useStyles();
 
-    const _checkIn = () => {
+    const flagHealthy = () => {
 
     }
 
-    const _checkOut = () => {
+    const flagUnhealthy = () => {
 
     }
 
-    const _getHistory = () => {
+    const getHistory = () => {
 
     }
 
     return (
         <Box style={{ paddingTop: 20, marginLeft: props.drawerWidth, height: window.innerHeight }}>
             {
-                isVisible && <PassportForm isVisible={isVisible} setVisibility={setVisibility} />
+                isVisible && <PassportForm isVisible={isVisible} setVisibility={setVisibility} govt={govt} />
             }
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
                 <Box className={classes.root} style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-                    <TextField style={{ width: '50%' }} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <FormControl variant="outlined" className={classes.formControl1}>
+                        <InputLabel id="demo-simple-select-outlined-label">Passport Number</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={passportBook[govt]}
+                            onChange={(event) => setPassport(event.target.value)}
+                            label="Government Contract Address"
+                        >
+                            {
+                                passportBook[govt] != null && passportBook[govt].map(item => {
+                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
                     <Button
                         onClick={() => setVisibility(true)}
                         variant="outlined"
@@ -75,7 +95,7 @@ export const Government = (props) => {
                     >
                         Create Passport
                     </Button>
-                    <FormControl variant="outlined" className={classes.formControl}>
+                    <FormControl variant="outlined" className={classes.formControl2}>
                         <InputLabel id="demo-simple-select-outlined-label">Government</InputLabel>
                         <Select
                             labelId="demo-simple-select-outlined-label"
@@ -97,32 +117,31 @@ export const Government = (props) => {
                 <Box style={{ width: '80%', }}>
                     {/* buttons */}
                     <Button
-                        onClick={() => _checkIn()}
-                        disabled={value.length == 0}
+                        onClick={() => flagHealthy()}
                         variant="contained"
                         color="secondary"
                         className={classes.button}
+                        disabled={passport.length == 0}
                         startIcon={<WarningIcon />}
                     >
                         Flag Unhealthy
                     </Button>
                     <Button
-                        onClick={() => _checkOut()}
-                        disabled={value.length == 0}
+                        onClick={() => flagUnhealthy()}
                         variant="contained"
                         color="primary"
                         className={classes.button}
+                        disabled={passport.length == 0}
                         startIcon={<HealingIcon />}
                     >
                         Flag Healthy
                     </Button>
                     <Button
-                        onClick={() => _getHistory()}
-                        disabled={value.length == 0}
+                        onClick={() => getHistory()}
                         variant="contained"
                         color="secondary"
                         className={classes.button}
-                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
                         startIcon={<SearchIcon />}
                     >
                         Get Travel History

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box } from '@material-ui/core'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -7,13 +7,24 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPassport } from '../actions/government';
 
 export const PassportForm = (props) => {
-    const { isVisible, setVisibility } = props
+
+    const dispatch = useDispatch()
+    const { isVisible, setVisibility, govt } = props
+    const [num, setNum] = useState('')
 
     const handleClose = () => {
         setVisibility(false);
-    };
+    }
+
+    const handleCreate = () => {
+        console.log(num)
+        dispatch(createPassport(govt, num))
+        setVisibility(false)
+    }
 
     return (
         <Dialog open={isVisible} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>
@@ -25,13 +36,14 @@ export const PassportForm = (props) => {
                     id="name"
                     label="Passport Number"
                     fullWidth
+                    onChange={e => setNum(e.target.value)}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleCreate} color="primary">
                     Create
                 </Button>
             </DialogActions>

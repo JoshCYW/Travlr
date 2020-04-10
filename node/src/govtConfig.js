@@ -33,19 +33,6 @@ export const GOVT_ABI = [
         "type": "event"
     },
     {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "logaddress",
-                "type": "address"
-            }
-        ],
-        "name": "log",
-        "type": "event"
-    },
-    {
         "constant": true,
         "inputs": [],
         "name": "isOwner",
@@ -121,6 +108,11 @@ export const GOVT_ABI = [
                 "internalType": "address",
                 "name": "_ethPassportOwnerAddress",
                 "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_passportNum",
+                "type": "string"
             }
         ],
         "name": "createEthPassport",
@@ -142,6 +134,21 @@ export const GOVT_ABI = [
                 "internalType": "address",
                 "name": "_hotelOwnerAddress",
                 "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_hotelName",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_lat",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_long",
+                "type": "uint256"
             }
         ],
         "name": "assignHotel",
@@ -163,6 +170,21 @@ export const GOVT_ABI = [
                 "internalType": "address",
                 "name": "_immigrationOwnerAddress",
                 "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_portName",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_lat",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_long",
+                "type": "uint256"
             }
         ],
         "name": "assignImmmigration",
@@ -242,6 +264,47 @@ export const GOVT_ABI = [
         ],
         "payable": false,
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_ethPassportAddress",
+                "type": "address"
+            }
+        ],
+        "name": "isHealthy",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_ethPassportAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "_healthy",
+                "type": "bool"
+            }
+        ],
+        "name": "setHealth",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {

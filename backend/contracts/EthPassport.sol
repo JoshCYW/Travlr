@@ -73,7 +73,7 @@ contract EthPassport is Ownable {
   }
   
   modifier onlyGovernment() {
-    require(msg.sender == government.owner(), "Requires Government Role");
+    require(government.governmentHasRole(msg.sender), "Requires Government Role");
     _;
   }
   

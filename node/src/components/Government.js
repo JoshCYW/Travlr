@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Box, Button } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import { Box, Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -44,11 +44,27 @@ const useStyles = makeStyles(theme => ({
 
 export const Government = (props) => {
     const { governments, passportBook } = useSelector(state => state.government)
+    const { ethPassportTruffleInstance } = useSelector(state => state.blockchain)
     const [isDisabled, setDisabled] = useState(true)
     const [govt, setGovt] = useState('')
     const [passport, setPassport] = useState('')
+    const [status, setStatus] = useState(false)
     const [isVisible, setVisibility] = useState(false)
     const classes = useStyles();
+
+    useEffect(() => {
+        if (passport.length > 0) {
+            console.log('firing correctly')
+            ethPassportTruffleInstance.at(passport).then(instance => {
+                return instance.isHealthy()
+            }).then(result => {
+                console.log(result)
+                setStatus(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    }, [passport])
 
     const flagHealthy = () => {
 
@@ -146,6 +162,7 @@ export const Government = (props) => {
                     >
                         Get Travel History
                     </Button>
+                    <p>Status: {status == false ? 'Not Healthy' : 'Healthy'}</p>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 
 import WarningIcon from '@material-ui/icons/Warning';
 import HealingIcon from '@material-ui/icons/Healing';
@@ -45,9 +44,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Government = (props) => {
-    const { governments, passportBook, mapping } = useSelector(state => state.government)
+    const { governments, passportBook } = useSelector(state => state.government)
     const { ethPassportTruffleInstance, govtTruffleInstance } = useSelector(state => state.blockchain)
-    const [isDisabled, setDisabled] = useState(true)
     const [govt, setGovt] = useState('')
     const [passport, setPassport] = useState('')
     const [status, setStatus] = useState(false)
@@ -68,14 +66,11 @@ export const Government = (props) => {
             return instance.owner()
         }).then(result => {
             console.log('owner: ', result)
-        })
-
-        ethPassportTruffleInstance.at(passport).then(instance => {
-            console.log('Selected Government: ', mapping[govt])
-            return instance.setHealth(health, {
-                from: mapping[govt] //send from respective ACCOUNT
+            govtTruffleInstance.at(govt).then(instance => {
+                return instance.setHealth(passport, health, {
+                    from: result
+                })
             }).then(result => {
-                console.log(result)
                 checkHealth()
             }).catch(error => {
                 console.log(error)
@@ -211,7 +206,7 @@ export const Government = (props) => {
                     >
                         Create Hotel
                     </Button>
-                    <p>Status: {status == false ? 'Not Healthy' : 'Healthy'}</p>
+                    <p>Status:  <Typography variant='overline' style={{ color: status == false ? 'red' : 'green', fontWeight: 'bold', fontSize: 15 }}>{status == false ? 'Not Healthy' : 'Healthy'}</Typography></p>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

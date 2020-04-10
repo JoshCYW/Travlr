@@ -1,63 +1,99 @@
 import React, { useState } from 'react'
-import { Box, Button } from '@material-ui/core'
+import { Box, Button, FormControl, InputLabel, Select, MenuItem, Snackbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FlightLandIcon from '@material-ui/icons/FlightLand';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
-import SearchIcon from '@material-ui/icons/Search';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TravelHistoryPage from '../immigrations/pages/travelHistory'
+import MuiAlert from '@material-ui/lab/Alert';
+
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '90%'
-        },
+        width: '43%',
+        margin: theme.spacing(1),
+    },
+    temp: {
+        width: '20%',
+        margin: theme.spacing(1),
     },
     button: {
         margin: theme.spacing(1),
         height: 50
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        width: '35%'
     }
 }));
 
 export const Immigration = (props) => {
 
-    const [isDisabled, setDisabled] = useState(true)
+    const { immigrationTruffleInstance } = useSelector(state => state.blockchain)
+    const { immigrationList } = useSelector(state => state.immigrations)
     const [value, setValue] = useState('')
+    const [immigration, setImmigration] = useState('')
+    const [temp, setTemp] = useState('')
+    const [type, setType] = useState('')
+    const [open, setOpen] = useState(false)
     const classes = useStyles();
 
-    const _checkIn = () => {
+    const handleChecking = (stat) => {
+        // 0 arrive , 1 depart
+        setType(stat == 0 ? 'Arrvied' : 'Departed')
+        console.log(value, stat, parseInt(parseFloat(temp) * 10), immigration)
+        immigrationTruffleInstance.at(immigration).then(instance => {
+            console.log(instance)
+            return instance.owner()
+        }).then(result => {
+            console.log('Owner of Immigration Contract: ', result)
+            immigrationTruffleInstance.at(immigration).then(instance => {
+                return instance.updateEthPassport(value, stat, parseInt(parseFloat(temp) * 10), {
+                    from: result
+                })
+            }).then(result => {
+                console.log('what result shows: ', result)
+                // show successful snackbar
+                setOpen(true)
+            }).catch(error => {
+                console.log(error)
+            })
 
-    }
-
-    const _checkOut = () => {
-
-    }
-
-    const _getHistory = () => {
-
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     return (
         <Box style={{ paddingTop: 20, marginLeft: props.drawerWidth, height: window.innerHeight }}>
-            <Box>
-                {/* input */}
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
-                </form>
+            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                <Box style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
+                    {/* input */}
+                    <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-outlined-label">Immigration</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            value={immigration}
+                            onChange={(event) => setImmigration(event.target.value)}
+                            label="Immigration Contract Address"
+                        >
+                            {
+                                immigrationList.map(item => {
+                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
+                </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
                 <Box style={{ width: '50%', }}>
                     {/* buttons */}
                     <Button
-                        onClick={() => _checkIn()}
+                        onClick={() => handleChecking(0)}
                         disabled={value.length == 0}
                         variant="contained"
                         color="secondary"
@@ -67,7 +103,7 @@ export const Immigration = (props) => {
                         Arrival (Check-in)
                     </Button>
                     <Button
-                        onClick={() => _checkOut()}
+                        onClick={() => handleChecking(1)}
                         disabled={value.length == 0}
                         variant="contained"
                         color="primary"
@@ -76,25 +112,17 @@ export const Immigration = (props) => {
                     >
                         Departure (Check-out)
                     </Button>
-                    <Button
-                        onClick={() => _getHistory()}
-                        disabled={value.length == 0}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get Travel History
-                    </Button>
                 </Box>
             </Box>
-            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {/* table */}
-                <Box style={{ width: '90%' }}>
-                    <TravelHistoryPage />
-                </Box>
-            </Box>
-        </Box>
+            <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+                <Alert onClose={() => setOpen(false)} severity="success">
+                    Successfully Transacted Passport's Activity: {type}
+                </Alert>
+            </Snackbar>
+        </Box >
     )
+}
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }

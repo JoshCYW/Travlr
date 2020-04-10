@@ -32,6 +32,7 @@ export const loadBlockChainData = () => async (dispatch) => {
     // Initialize 2 Governments: Singapore and United States with their respective caller IDs
     // Store Respective Contract Addresses in store
 
+
     const createSgGov = new Promise(function (resolve, reject) {
         travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
             console.log(instance)
@@ -83,12 +84,3 @@ export const loadBlockChainData = () => async (dispatch) => {
         payload: payload,
     });
 }
-
-// GovtTruffleInstance.at(result.receipt.logs[0].address).then(instance => {
-//     console.log(instance)
-//     return instance.getGovernmentOwner({
-//         from: accounts[1]
-//     })
-// }).then(result => {
-//     console.log(result)
-// })

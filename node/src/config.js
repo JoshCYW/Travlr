@@ -1,6 +1,6 @@
 //update address value if you redeploy ganache
 export const TRAVLR_ADDRESS = '0x111bab694D546Da16bBb7B97cA8799302f6D6C63'
-export const TRAVLR_ABI =  [
+export const TRAVLR_ABI = [
   {
     "inputs": [],
     "payable": false,
@@ -24,19 +24,6 @@ export const TRAVLR_ABI =  [
       }
     ],
     "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "logaddress",
-        "type": "address"
-      }
-    ],
-    "name": "log",
     "type": "event"
   },
   {

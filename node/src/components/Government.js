@@ -17,6 +17,8 @@ import TravelHistoryPage from '../immigrations/pages/travelHistory'
 import { PassportForm } from './PassportForm';
 import { useSelector } from 'react-redux';
 import { ImmigrationForm } from './ImmigrationForm';
+import { HotelForm } from './HotelForm';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -52,6 +54,7 @@ export const Government = (props) => {
     const [status, setStatus] = useState(false)
     const [isVisible, setVisibility] = useState(false)
     const [isImmigrationFormVisible, setImmigrationVisibility] = useState(false)
+    const [isHotelFormVisible, setHotelVisibility] = useState(false)
     const classes = useStyles();
 
     useEffect(() => {
@@ -105,6 +108,9 @@ export const Government = (props) => {
             }
             {
                 isImmigrationFormVisible && <ImmigrationForm isVisible={isImmigrationFormVisible} setVisibility={setImmigrationVisibility} govt={govt} />
+            }
+            {
+                isHotelFormVisible && <HotelForm isVisible={isHotelFormVisible} setVisibility={setHotelVisibility} govt={govt} />
             }
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
@@ -195,6 +201,16 @@ export const Government = (props) => {
                         disabled={govt.length == 0}
                     >
                         Create Immigration
+                    </Button>
+                    <Button
+                        onClick={() => setHotelVisibility(true)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<AddIcon />}
+                        disabled={govt.length == 0}
+                    >
+                        Create Hotel
                     </Button>
                     <p>Status: {status == false ? 'Not Healthy' : 'Healthy'}</p>
                 </Box>

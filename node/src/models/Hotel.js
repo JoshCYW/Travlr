@@ -3,7 +3,7 @@ const moment = require("moment");
 const { Schema } = mongoose;
 const Direction = require("../enums/Direction");
 
-const immigrationSchema = new Schema({
+const hotelSchema = new Schema({
   ethPassport: String,
   direction: {
     ...Direction,
@@ -16,4 +16,4 @@ const immigrationSchema = new Schema({
   contractAddress: String,
 });
 
-module.exports = mongoose.model("Immigration", immigrationSchema);
+module.exports = mongoose.model("Hotel", hotelSchema);

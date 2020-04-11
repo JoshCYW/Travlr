@@ -1,51 +1,51 @@
-const Immigration = require("../models/Immigration");
+const Hotel = require("../models/Hotel");
 
 const { cloneDeep } = require("lodash");
 const moment = require("moment");
 const express = require("express");
 const router = express.Router();
 
-// GET /immigration/${immigrationId}
+// GET /hotel/${hotelId}
 router.get(`/:id`, async (req, res) => {
   console.log(`GET ${req.originalUrl}`);
 
   try {
     const { id } = req.params;
-    let immigration = await Immigration.findById(id);
-    if (!immigration) {
-      throw Error("immigration record not found");
+    let hotel = await Hotel.findById(id);
+    if (!hotel) {
+      throw Error("hotel record not found");
     }
-    return res.status(200).send(immigration);
+    return res.status(200).send(hotel);
   } catch (err) {
-    console.error("error fetching immigration record", err);
+    console.error("error fetching hotel record", err);
     return res.status(500).send({
       message: err.message,
     });
   }
 });
 
-//GET /immigration/contractAddress/${contractAddress}
+//GET /hotel/contractAddress/${contractAddress}
 router.get(`/contractAddress/:contractAddress`, async (req, res) => {
   console.log(`GET ${req.originalUrl}`);
 
   try {
-    const immigrations = await Immigration.find({
+    const hotels = await Hotel.find({
       contractAddress: req.params.contractAddress,
     });
 
-    if (!immigrations.length) {
-      throw Error("immigration records not found");
+    if (!hotels.length) {
+      throw Error("hotel records not found");
     }
-    return res.status(200).send(immigrations);
+    return res.status(200).send(hotels);
   } catch (err) {
-    console.error("error fetching immigration record", err);
+    console.error("error fetching hotel records", err);
     return res.status(500).send({
       message: err.message,
     });
   }
 });
 
-//GET /immigration/contractAddress/${contractAddress}/start/${startDate}/end/${endDate}
+//GET /hotel/contractAddress/${contractAddress}/start/${startDate}/end/${endDate}
 router.get(
   `/contractAddress/:contractAddress/start/:startDate/end/:endDate`,
   async (req, res) => {
@@ -64,17 +64,17 @@ router.get(
       }
       dates = dates.map((date) => date.toDate());
 
-      const immigrations = await Immigration.find({
+      const hotels = await Hotel.find({
         contractAddress: req.params.contractAddress,
         date: { $in: dates },
       });
 
-      if (!immigrations.length) {
-        throw Error("immigration records not found for selected dates");
+      if (!hotels.length) {
+        throw Error("hotel records not found");
       }
-      return res.status(200).send(immigrations);
+      return res.status(200).send(hotels);
     } catch (err) {
-      console.error("error fetching immigration record", err);
+      console.error("error fetching hotel record", err);
       return res.status(500).send({
         message: err.message,
       });
@@ -82,12 +82,12 @@ router.get(
   }
 );
 
-// POST /immigration/contractAddress/${contractAddress}/
+// POST /hotel/contractAddress/${contractAddress}/
 router.post(`/contractAddress/:contractAddress`, async (req, res) => {
   console.log(`POST ${req.originalUrl}`);
 
   try {
-    const immigration = new Immigration({
+    const hotel = new Hotel({
       ethPassport: req.body.ethPassport,
       direction: req.body.direction,
       temp: req.body.temp,
@@ -95,11 +95,11 @@ router.post(`/contractAddress/:contractAddress`, async (req, res) => {
       date: moment.utc().startOf("day"),
       dateTime: moment.utc(),
     });
-    let newImmigration = await immigration.save();
-    console.log("new immigration record successfully created", newImmigration);
-    return res.status(201).send(newImmigration);
+    let newHotel = await hotel.save();
+    console.log("new hotel record successfully created", newHotel);
+    return res.status(201).send(newHotel);
   } catch (err) {
-    console.error("new immmigration record cannot be created", err);
+    console.error("new hotel record cannot be created", err);
     return res.status(400).send({
       message: err.message,
     });

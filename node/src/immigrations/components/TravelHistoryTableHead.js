@@ -7,20 +7,20 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const columnData = [
   {
-    id: 'travelHistoryId',
-    label: 'TID',
+    id: 'direction',
+    label: 'Direction',
   },
   {
-    id: 'country',
-    label: 'country',
+    id: 'temp',
+    label: 'Temp',
   },
   {
-    id: 'travellerName',
-    label: 'Traveller Name',
+    id: 'timestamp',
+    label: 'Timestamp',
   },
   {
-    id: 'date',
-    label: 'Date',
+    id: 'updatedBy',
+    label: 'UpdatedBy',
   },
 ];
 

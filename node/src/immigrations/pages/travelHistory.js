@@ -7,15 +7,12 @@ import Paper from '@material-ui/core/Paper';
 import {
   requestSort, changePage, changeRowsPerPage, changeOrderBy,
 } from '../../actions/table';
-import { getTravelHistory } from '../../actions/immigrations'
+import { retrieveTravelHistory } from '../../actions/government';
 import TravelHistoryTableHead from '../components/TravelHistoryTableHead';
 import TravelHistoryTableBody from '../components/TravelHistoryTableBody';
 import TravelHistoryTableFoot from '../components/TravelHistoryTableFoot';
 
 class TravelHistoryPage extends Component {
-  componentDidMount() {
-    this.props.getTravelHistory();
-  }
 
   render() {
     const {
@@ -75,7 +72,6 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-  travelHistories: state.immigrations.travelHistories,
   order: state.table.order,
   orderBy: state.table.orderBy,
   page: state.table.page,
@@ -87,7 +83,7 @@ const mapDispatchToProps = dispatch => ({
   handlePageChange: page => dispatch(changePage(page)),
   handleRowChange: rows => dispatch(changeRowsPerPage(rows)),
   handleOrderByChange: order => dispatch(changeOrderBy(order)),
-  getTravelHistory: () => dispatch(getTravelHistory()),
+  retrieveTravelHistory: () => dispatch(retrieveTravelHistory()),
 });
 
 export default combine(

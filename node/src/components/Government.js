@@ -13,9 +13,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TravelHistoryPage from '../immigrations/pages/travelHistory'
 import { PassportForm } from './PassportForm';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ImmigrationForm } from './ImmigrationForm';
 import { HotelForm } from './HotelForm';
+import { retrieveTravelHistory } from '../actions/government';
 
 
 const useStyles = makeStyles(theme => ({
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Government = (props) => {
-    const { governments, passportBook } = useSelector(state => state.government)
+    const { governments, passportBook, travelHistories } = useSelector(state => state.government)
     const { ethPassportTruffleInstance, govtTruffleInstance } = useSelector(state => state.blockchain)
     const [govt, setGovt] = useState('')
     const [passport, setPassport] = useState('')
@@ -53,7 +54,7 @@ export const Government = (props) => {
     const [isImmigrationFormVisible, setImmigrationVisibility] = useState(false)
     const [isHotelFormVisible, setHotelVisibility] = useState(false)
     const classes = useStyles();
-
+    const dispatch = useDispatch();
     useEffect(() => {
         if (passport.length > 0) {
             console.log('firing correctly')
@@ -80,26 +81,31 @@ export const Government = (props) => {
         })
     }
 
+    // const getHistory = () => {
+    //     govtTruffleInstance.at(govt).then(instance => {
+    //         return instance.owner()
+    //     }).then(result => {
+    //         console.log('owner: ', result)
+    //         govtTruffleInstance.at(govt).then(instance => {
+    //             // replace 0 with the ID
+    //             return instance.getTravelHistoryWithId(passport, 0, {
+    //                 from: result
+    //             })
+    //         }).then(result => {
+    //             console.log('the result is..... ', result)
+    //             const { next, timestamp, direction, temp, updatedBy } = result.receipt.logs[0].args
+    //             console.log(next.words[0], timestamp.words[0], direction.words[0], temp.words[0], updatedBy)
+    //         }).catch(error => {
+    //             console.log(error)
+    //         })
+    //     }).catch(error => {
+    //         console.log(error)
+    //     })
+    // }
+
     const getHistory = () => {
-        govtTruffleInstance.at(govt).then(instance => {
-            return instance.owner()
-        }).then(result => {
-            console.log('owner: ', result)
-            govtTruffleInstance.at(govt).then(instance => {
-                // replace 0 with the ID
-                return instance.getTravelHistoryWithId(passport, 0, {
-                    from: result
-                })
-            }).then(result => {
-                console.log('the result is..... ', result)
-                const { next, timestamp, direction, temp, updatedBy } = result.receipt.logs[0].args
-                console.log(next.words[0], timestamp.words[0], direction.words[0], temp.words[0], updatedBy)
-            }).catch(error => {
-                console.log(error)
-            })
-        }).catch(error => {
-            console.log(error)
-        })
+        console.log("getting history");
+        dispatch(retrieveTravelHistory(govt, passport));
     }
 
     const checkHealth = () => {
@@ -238,7 +244,9 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {/* table */}
                 <Box style={{ width: '90%' }}>
-                    <TravelHistoryPage />
+                    <TravelHistoryPage 
+                        travelHistories={travelHistories === undefined ? [] : travelHistories}
+                    />
                 </Box>
             </Box>
         </Box >

@@ -1,8 +1,7 @@
 // server.js
-
 const express = require("express");
 const server = express();
-
+const moment = require("moment");
 const body_parser = require("body-parser");
 
 // parse JSON (application/json content-type)
@@ -17,16 +16,15 @@ const collectionName = "logs";
 
 // << db init >>
 db.initialize(dbName, collectionName, function (dbCollection) { // successCallback
-    // get all items
-    dbCollection.find().toArray(function (err, result) {
-        if (err) throw err;
-        console.log(result);
-    });
 
     // << db CRUD routes >>
     server.post("/logs", (request, response) => {
         const item = request.body;
-        dbCollection.insertOne(item, (error, result) => { // callback of insertOne
+        dbCollection.insertOne({
+            ...item,
+            date: moment.utc().startOf("day"),
+            dateTime: moment.utc(),
+        }, (error, result) => { // callback of insertOne
             if (error) throw error;
             // return updated list
             dbCollection.find().toArray((_error, _result) => { // callback of find

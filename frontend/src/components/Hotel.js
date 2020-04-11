@@ -6,6 +6,8 @@ import HotelIcon from '@material-ui/icons/Hotel';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSelector } from 'react-redux';
+import axios from 'axios'
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -52,6 +54,16 @@ export const Hotel = (props) => {
                 })
             }).then(result => {
                 // show successful snackbar
+                let body = {
+                    "ethPassportAddress": value,
+                    "entityContractAddress": hotel,
+                    "temp": parseFloat(temp)
+                }
+                axios.post('http://localhost:4000/logs', {
+                    ...body
+                }).then(response => {
+                    response.data
+                })
                 setOpen(true)
             }).catch(error => {
                 console.log(error)

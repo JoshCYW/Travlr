@@ -27,6 +27,19 @@ export const TRAVLR_ABI = [
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "govs",
+        "type": "address[]"
+      }
+    ],
+    "name": "showGovs",
+    "type": "event"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "check",
@@ -90,6 +103,15 @@ export const TRAVLR_ABI = [
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "giveGovs",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

@@ -58,6 +58,7 @@ export const loadBlockChainData = () => async (dispatch) => {
                 from: accounts[0]
             })
         }).then(result => {
+            console.log(result)
             var address = result.receipt.logs[0].address
             console.log('address: ', address)
             resolve(address)

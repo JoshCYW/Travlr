@@ -13,6 +13,9 @@ contract Government is Ownable {
   uint16 country; //Country code uint16 (e.g; SG = 65)
   address governmentOwner;
   
+  event log(uint next, uint timestamp, EthPassport.Direction direction, uint16 temp, address updatedBy);
+  event healthStatus(bool health);
+  
   constructor(uint16 _country) public {
     //makes parent the first owner who created the contract not new owner who took over contract
     travlr = Travlr(owner());
@@ -49,9 +52,10 @@ contract Government is Ownable {
     return address(immigration); //returns immigration contract address
   }
   
-  function getTravelHistoryWithId(address _ethPassportAddress, uint _id) public onlyOwner returns (uint,uint,EthPassport.Direction,uint,address){
+  function getTravelHistoryWithId(address _ethPassportAddress, uint _id) public onlyOwner{
     EthPassport ethPassport = EthPassport(_ethPassportAddress);
-    return ethPassport.getTravelHistoryWithId(_id);
+    (uint next, uint timestamp, EthPassport.Direction direction, uint16 temp, address updatedBy) = ethPassport.getTravelHistoryWithId(_id);
+    emit log(next, timestamp, direction, temp, updatedBy);
   }
   
   function getHeadId(address _ethPassportAddress) public onlyOwner view returns (uint) {
@@ -59,9 +63,10 @@ contract Government is Ownable {
     return ethPassport.getHeadId();
   }
   
-  function isHealthy(address _ethPassportAddress) public returns (bool) {
+  function isHealthy(address _ethPassportAddress) public {
     EthPassport ethPassport = EthPassport(_ethPassportAddress);
-    return ethPassport.isHealthy();
+    bool result = ethPassport.isHealthy();
+    emit healthStatus(result);
   }
   
   function setHealth(address _ethPassportAddress, bool _healthy) public onlyOwner {

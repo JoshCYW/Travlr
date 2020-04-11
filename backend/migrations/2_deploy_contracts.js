@@ -4,7 +4,7 @@ const Immigration = artifacts.require("Immigration");
 const Hotel = artifacts.require("Hotel");
 const Travlr = artifacts.require("Travlr");
 
-module.exports = function(deployer, network, accounts) {
+module.exports = function (deployer, network, accounts) {
   let travlrInstance;
   // let governmentInstance;
   // let ethPassportInstance;
@@ -13,10 +13,10 @@ module.exports = function(deployer, network, accounts) {
 
   return deployer
     .then(() => {
-        return deployer.deploy(Travlr, {from: accounts[0]});
+      return deployer.deploy(Travlr, { from: accounts[0] });
     }).then((_inst) => {
-        travlrInstance = _inst;
-        console.log("Travlr contract at address = " + travlrInstance.address);
+      travlrInstance = _inst;
+      console.log("Travlr contract at address = " + travlrInstance.address);
     });
 
   // return deployer

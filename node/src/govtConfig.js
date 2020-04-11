@@ -33,6 +33,56 @@ export const GOVT_ABI = [
         "type": "event"
     },
     {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "health",
+                "type": "bool"
+            }
+        ],
+        "name": "healthStatus",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "next",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "enum EthPassport.Direction",
+                "name": "direction",
+                "type": "uint8"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint16",
+                "name": "temp",
+                "type": "uint16"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "updatedBy",
+                "type": "address"
+            }
+        ],
+        "name": "log",
+        "type": "event"
+    },
+    {
         "constant": true,
         "inputs": [],
         "name": "isOwner",
@@ -214,33 +264,7 @@ export const GOVT_ABI = [
             }
         ],
         "name": "getTravelHistoryWithId",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "enum EthPassport.Direction",
-                "name": "",
-                "type": "uint8"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
+        "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
@@ -276,13 +300,7 @@ export const GOVT_ABI = [
             }
         ],
         "name": "isHealthy",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"

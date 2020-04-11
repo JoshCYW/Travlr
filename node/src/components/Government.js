@@ -81,15 +81,41 @@ export const Government = (props) => {
     }
 
     const getHistory = () => {
-
+        govtTruffleInstance.at(govt).then(instance => {
+            return instance.owner()
+        }).then(result => {
+            console.log('owner: ', result)
+            govtTruffleInstance.at(govt).then(instance => {
+                // replace 0 with the ID
+                return instance.getTravelHistoryWithId(passport, 0, {
+                    from: result
+                })
+            }).then(result => {
+                console.log('the result is..... ', result)
+                const { next, timestamp, direction, temp, updatedBy } = result.receipt.logs[0].args
+                console.log(next.words[0], timestamp.words[0], direction.words[0], temp.words[0], updatedBy)
+            }).catch(error => {
+                console.log(error)
+            })
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     const checkHealth = () => {
-        ethPassportTruffleInstance.at(passport).then(instance => {
-            return instance.isHealthy()
+        govtTruffleInstance.at(govt).then(instance => {
+            return instance.owner()
         }).then(result => {
-            console.log(result)
-            setStatus(result)
+            govtTruffleInstance.at(govt).then(instance => {
+                return instance.isHealthy(passport, {
+                    from: result
+                })
+            }).then(result => {
+                console.log(result.receipt.logs[0].args.health)
+                setStatus(result.receipt.logs[0].args.health)
+            }).catch(error => {
+                console.log(error)
+            })
         }).catch(error => {
             console.log(error)
         })

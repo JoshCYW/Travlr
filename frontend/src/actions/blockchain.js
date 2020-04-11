@@ -68,21 +68,7 @@ export const loadBlockChainData = () => async (dispatch) => {
         })
     })
 
-
     Promise.all([createSgGov, createUsGov]).then(function (values) {
-        
-        travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
-            console.log(instance)
-            return instance.giveGovs({
-                from: accounts[0]
-            })
-        }).then(result => {
-            // var address = result.receipt.logs[0].address
-            console.log('GIVE GOVS: ', result)
-        }).catch(function (error) {
-            console.log(error)
-        })
-
         console.log(values)
         let mapping = {}
         for (let i = 1; i <= values.length; i++) {

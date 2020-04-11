@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 // Import routers
-const defaultRouter = require("./src/routes/defaultRoutes");
 const immigrationRouter = require("./src/routes/immigrationRoutes");
 const hotelRouter = require("./src/routes/hotelRoutes");
 
@@ -29,7 +28,6 @@ mongoose.connect(
 );
 
 // Set up application with routers
-app.use("/", defaultRouter);
 app.use("/immigration", immigrationRouter);
 app.use("/hotel", hotelRouter);
 

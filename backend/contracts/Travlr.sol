@@ -13,22 +13,11 @@ contract Travlr is Ownable {
   
   uint16 public check;
   address travlrOwner;
-  address[1] public govs;
-
-  // event showGovs(address[] govs);
 
   constructor() public {
       travlrOwner = msg.sender;
       check = 1;
   }
-
-  // function giveGovs() public {
-  //   address[] memory output = new address[](govs.length);
-  //   for (uint256 i = 0; i < govs.length; i++) {
-  //       output[i] = govs[i];
-  //   }
-  //   // emit showGovs(output);
-  // }
 
   function assignGovernment(address _govtOwnerAddress, uint16 _country ) public onlyOwner returns (address) {
     //Create government contract with constructor variables

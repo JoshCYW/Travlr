@@ -1,12 +1,26 @@
 import React, { useState } from 'react'
 import { Box, Button, Snackbar, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 import TextField from '@material-ui/core/TextField';
 import HotelIcon from '@material-ui/icons/Hotel';
+import SearchIcon from '@material-ui/icons/Search';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSelector } from 'react-redux';
 import axios from 'axios'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
@@ -37,6 +51,9 @@ export const Hotel = (props) => {
     const [temp, setTemp] = useState('')
     const [type, setType] = useState('')
     const [open, setOpen] = useState(false)
+    const [rows, setRows] = useState([])
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
     const classes = useStyles();
 
     const handleChecking = (stat) => {
@@ -52,19 +69,22 @@ export const Hotel = (props) => {
                 return instance.updateEthPassport(value, stat, parseInt(parseFloat(temp) * 10), {
                     from: result
                 })
-            }).then(result => {
+            }).then(async result => {
                 // show successful snackbar
+                console.log('made it here: ', result)
                 let body = {
-                    "ethPassportAddress": value,
-                    "entityContractAddress": hotel,
-                    "temp": parseFloat(temp)
+                    ethPassport: value,
+                    direction: stat == 2 ? "CHECKIN" : "CHECKOUT",
+                    temp: parseInt(parseFloat(temp) * 10)
                 }
-                axios.post('http://localhost:4000/logs', {
+                await axios.post('http://localhost:4000/hotel/contractAddress/' + hotel, {
                     ...body
                 }).then(response => {
-                    response.data
+                    console.log(response.data)
+                    setOpen(true)
+                }).catch(error => {
+                    console.log(error)
                 })
-                setOpen(true)
             }).catch(error => {
                 console.log(error)
             })
@@ -72,6 +92,31 @@ export const Hotel = (props) => {
         }).catch(error => {
             console.log(error)
         })
+    }
+
+    const getHistory = async () => {
+        let sd = moment(startDate).valueOf()
+        let ed = moment(endDate).valueOf()
+        await axios.get('http://localhost:4000/hotel/contractAddress/' + hotel + '/start/' + sd + '/end/' + ed)
+            .then(response => {
+                console.log(response.data)
+                setRows(response.data)
+            }).catch(error => {
+                console.log(error.response)
+                if (error.response.data.message == "hotel records not found") {
+                    console.log("hotel records not found")
+                }
+            })
+    }
+
+    const getAllHistory = async () => {
+        await axios.get('http://localhost:4000/hotel/contractAddress/' + hotel)
+            .then(response => {
+                console.log(response.data)
+                setRows(response.data)
+            }).catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -100,7 +145,7 @@ export const Hotel = (props) => {
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
-                <Box style={{ width: '50%', }}>
+                <Box style={{ width: '90%', }}>
                     {/* buttons */}
                     <Button
                         onClick={() => handleChecking(2)}
@@ -122,7 +167,79 @@ export const Hotel = (props) => {
                     >
                         Check-out
                     </Button>
+                    <Button
+                        onClick={() => getHistory()}
+                        disabled={value.length == 0}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get Individual Travel History
+                    </Button>
+                    <Button
+                        onClick={() => getAllHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: 'darkorange' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Travel History
+                    </Button>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker required className={classes.input}
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="Start Date:"
+                            format="MM/dd/yyyy"
+                            value={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                        <br />
+                        <KeyboardDatePicker required className={classes.input}
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="End Date:"
+                            format="MM/dd/yyyy"
+                            value={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Box>
+            </Box>
+            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                <TableContainer component={Paper} style={{ width: '90%' }}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Eth Passport</TableCell>
+                                <TableCell align="right">Activity</TableCell>
+                                <TableCell align="right">Temp</TableCell>
+                                <TableCell align="right">Date</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row._id}>
+                                    <TableCell component="th" scope="row">
+                                        {row.ethPassport}
+                                    </TableCell>
+                                    <TableCell align="right">{row.direction}</TableCell>
+                                    <TableCell align="right">{parseFloat(row.temp) / 10}</TableCell>
+                                    <TableCell align="right">{moment(row.date).format('D/MMM/YYYY')}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
             <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
                 <Alert onClose={() => setOpen(false)} severity="success">

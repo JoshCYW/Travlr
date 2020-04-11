@@ -2,8 +2,6 @@ import actions from '../actions/blockchain';
 import { LOAD_BLOCKCHAIN_DATA } from '../constants';
 
 const initialState = {
-  travelHistories: [],
-  travelHistory: {},
   accounts: [],
   travlrTruffleInstance: {},
   govtTruffleInstance: {},

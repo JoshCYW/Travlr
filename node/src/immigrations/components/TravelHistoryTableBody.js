@@ -59,19 +59,16 @@ class TravelHistoryTableBody extends Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, travelHistories.length - page * rowsPerPage);
     const open = Boolean(anchorEl);
     const ITEM_HEIGHT = 48;
-
     return (
       <TableBody>
         {stableSort(travelHistories, getSorting(order, orderBy))
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map(n => (
-            <TableRow hover tabIndex={0} key={n.travelHistoryId} style={{ width: '100%' }}>
-              <TableCell padding="checkbox" style={{ paddingLeft: 15 }}>{n.travelHistoryId}</TableCell>
-              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.country}</TableCell>
-              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.name}</TableCell>
-              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>
-                {n.date}
-              </TableCell>
+            <TableRow hover tabIndex={0} key={n.next} style={{ width: '100%' }}>
+              <TableCell padding="checkbox" style={{ paddingLeft: 15 }}>{n.direction}</TableCell>
+              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.temp}</TableCell>
+              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.timestamp}</TableCell>
+              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.updatedBy}</TableCell>
               <TableCell style={{ width: '17.5%', paddingLeft: 15 }}>
                 <IconButton
                   aria-label="More"

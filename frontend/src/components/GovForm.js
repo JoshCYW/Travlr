@@ -32,7 +32,7 @@ export const GovForm = (props) => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Eth Address"
+                    label="Account Owner"
                     fullWidth
                     onChange={e => setEthAddress(e.target.value)}
                 />

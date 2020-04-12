@@ -53,8 +53,12 @@ router.get(
 
     try {
       // Date in YYYY-MM-DD
-      const startDate = moment.utc(moment(parseInt(req.params.startDate)).format('YYYY-MM-DD'))
-      const endDate = moment.utc(moment(parseInt(req.params.endDate)).format('YYYY-MM-DD'))
+      const startDate = moment.utc(
+        moment(parseInt(req.params.startDate)).format("YYYY-MM-DD")
+      );
+      const endDate = moment.utc(
+        moment(parseInt(req.params.endDate)).format("YYYY-MM-DD")
+      );
       const numberDays = endDate.diff(startDate, "days");
 
       let dates = [];

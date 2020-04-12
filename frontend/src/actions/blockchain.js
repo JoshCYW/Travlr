@@ -33,56 +33,6 @@ export const loadBlockChainData = () => async (dispatch) => {
     payload['immigrationTruffleInstance'] = immigrationTruffleInstance;
     payload['hotelTruffleInstance'] = hotelTruffleInstance;
 
-
-    // Initialize 2 Governments: Singapore and United States with their respective caller IDs
-    // Store Respective Contract Addresses in store
-
-    // const createSgGov = new Promise(function (resolve, reject) {
-    //     travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
-    //         console.log(instance)
-    //         return instance.assignGovernment(accounts[1], 65, {
-    //             from: accounts[0]
-    //         })
-    //     }).then(result => {
-    //         var address = result.receipt.logs[0].address
-    //         console.log('address: ', address)
-    //         resolve(address)
-    //     }).catch(function (error) {
-    //         reject(error)
-    //     })
-    // })
-
-    // const createUsGov = new Promise(function (resolve, reject) {
-    //     travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
-    //         console.log(instance)
-    //         return instance.assignGovernment(accounts[2], 1, {
-    //             from: accounts[0]
-    //         })
-    //     }).then(result => {
-    //         console.log(result)
-    //         var address = result.receipt.logs[0].address
-    //         console.log('address: ', address)
-    //         resolve(address)
-    //     }).catch(function (error) {
-    //         reject(error)
-    //     })
-    // })
-
-    // Promise.all([createSgGov, createUsGov]).then(function (values) {
-    //     console.log(values)
-    //     let mapping = {}
-    //     for (let i = 1; i <= values.length; i++) {
-    //         mapping[values[i - 1]] = accounts[i]
-    //     }
-    //     dispatch({
-    //         type: PRELOAD_GOVERNMENT,
-    //         payload: {
-    //             governments: values,
-    //             mapping
-    //         }
-    //     })
-    // })
-
     dispatch({
         type: LOAD_BLOCKCHAIN_DATA,
         payload: payload,

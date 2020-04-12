@@ -156,7 +156,7 @@ export const Hotel = (props) => {
                     </FormControl>
                 </Box>
             </Box>
-            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
+            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingTop: 30, paddingBottom: 30 }}>
                 <Box style={{ width: '90%', }}>
                     {/* buttons */}
                     <Button
@@ -190,6 +190,18 @@ export const Hotel = (props) => {
                     >
                         Get Hotel History with Dates
                     </Button>
+                    <Button
+                        onClick={() => getAllHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: 'darkorange' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Hotel History
+                    </Button>
+                </Box>
+                <Box width="90%">
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker required className={classes.input}
                             margin="normal"
@@ -202,7 +214,6 @@ export const Hotel = (props) => {
                                 'aria-label': 'change date',
                             }}
                         />
-                        <br />
                         <KeyboardDatePicker required className={classes.input}
                             margin="normal"
                             id="date-picker-dialog"
@@ -215,17 +226,6 @@ export const Hotel = (props) => {
                             }}
                         />
                     </MuiPickersUtilsProvider>
-                    <Button
-                        onClick={() => getAllHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: 'darkorange' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get All Hotel History
-                    </Button>
-                    
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

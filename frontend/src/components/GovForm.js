@@ -20,13 +20,13 @@ export const GovForm = (props) => {
     }
 
     const handleCreate = () => {
-        dispatch(createGovernment(ethAddress,countryCode))
+        dispatch(createGovernment(ethAddress.trim(),countryCode))
         setVisibility(false)
     }
 
     return (
         <Dialog open={isVisible} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>
-            <DialogTitle id="form-dialog-title">Create Hotel</DialogTitle>
+            <DialogTitle id="form-dialog-title">Create Government</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus

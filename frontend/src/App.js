@@ -21,6 +21,7 @@ import { Government } from './components/Government';
 import { loadBlockChainData } from './actions/blockchain';
 import { useDispatch } from 'react-redux';
 import { Admin } from './components/admin';
+import { clearTravelHistory } from './actions/government';
 
 const drawerWidth = 240;
 
@@ -68,6 +69,7 @@ export const App = () => {
 
   const _handleNavigation = (text) => {
     setTab(text)
+    dispatch(clearTravelHistory());
   }
 
   return (

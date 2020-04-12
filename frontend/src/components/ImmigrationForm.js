@@ -31,7 +31,7 @@ export const ImmigrationForm = (props) => {
 
     return (
         <Dialog open={isVisible} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>
-            <DialogTitle id="form-dialog-title">Create Passport</DialogTitle>
+            <DialogTitle id="form-dialog-title">Create Immigration</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus

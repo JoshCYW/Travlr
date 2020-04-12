@@ -7,6 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
+import { directionHelper, tempHelper, dateHelper } from '../../utils';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -64,10 +65,10 @@ class TravelHistoryTableBody extends Component {
         {stableSort(travelHistories, getSorting(order, orderBy))
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map(n => (
-            <TableRow hover tabIndex={0} key={n.next} style={{ width: '100%' }}>
-              <TableCell padding="checkbox" style={{ paddingLeft: 15 }}>{n.direction}</TableCell>
-              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.temp}</TableCell>
-              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.timestamp}</TableCell>
+            <TableRow hover tabIndex={0} key={n.timestamp} style={{ width: '100%' }}>
+              <TableCell padding="checkbox" style={{ paddingLeft: 15 }}>{directionHelper(n.direction)}</TableCell>
+              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{tempHelper(n.temp) + '°C'}</TableCell>
+              <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{dateHelper(n.timestamp)}</TableCell>
               <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.updatedBy}</TableCell>
               <TableCell style={{ width: '17.5%', paddingLeft: 15 }}>
                 <IconButton

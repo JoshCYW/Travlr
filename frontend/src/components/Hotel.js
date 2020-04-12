@@ -188,17 +188,7 @@ export const Hotel = (props) => {
                         style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
                         startIcon={<SearchIcon />}
                     >
-                        Get Individual Travel History
-                    </Button>
-                    <Button
-                        onClick={() => getAllHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: 'darkorange' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get All Travel History
+                        Get Hotel History with Dates
                     </Button>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker required className={classes.input}
@@ -225,6 +215,17 @@ export const Hotel = (props) => {
                             }}
                         />
                     </MuiPickersUtilsProvider>
+                    <Button
+                        onClick={() => getAllHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: 'darkorange' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Hotel History
+                    </Button>
+                    
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

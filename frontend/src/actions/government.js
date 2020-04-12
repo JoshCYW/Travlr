@@ -1,5 +1,29 @@
 import store from '../store/index'
-import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY } from '../constants'
+import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT } from '../constants'
+import { TRAVLR_ADDRESS } from '../config'
+
+export const createGovernment = (ownerAddress, countryCode) => dispatch => {
+    const { travlrTruffleInstance, accounts } = store.getState().blockchain
+    travlrTruffleInstance.at(TRAVLR_ADDRESS).then(instance => {
+        return instance.assignGovernment(ownerAddress, countryCode, {
+            from: accounts[0]
+        })
+    }).then(result => {
+        var address = result.receipt.logs[0].address
+        let mapping = {
+            address: ownerAddress
+        }
+        dispatch({
+            type: CREATE_GOVERNMENT,
+            payload: {
+                govAddress: address,
+                govEthMapping: mapping
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+}
 
 export const createPassport = (gov, passportNum) => dispatch => {
     const { govtTruffleInstance, accounts } = store.getState().blockchain

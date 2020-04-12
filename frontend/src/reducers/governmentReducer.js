@@ -1,4 +1,4 @@
-import { PRELOAD_GOVERNMENT, CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY } from "../constants";
+import { PRELOAD_GOVERNMENT, CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT } from "../constants";
 
 const initialState = {
     travelHistories: [],
@@ -11,11 +11,12 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case PRELOAD_GOVERNMENT:
             const { governments, mapping } = action.payload
-            let ppb = {}
+            let ppb = [];
             for (let i = 0; i < governments.length; i++) {
                 ppb[governments[i]] = []
             }
             state = {
+                ... state,
                 governments: action.payload.governments,
                 passportBook: ppb,
                 mapping
@@ -32,6 +33,19 @@ export default function (state = initialState, action) {
                 passportBook
             }
             console.log(state)
+            return state
+        case CREATE_GOVERNMENT: 
+            const { govAddress, govEthMapping } = action.payload
+            let pp = state.passportBook
+            let map = state.mapping
+            pp[govAddress] = [];
+            state = {
+                ...state,
+                governments: state.governments.concat(govAddress),
+                passportBook: pp,
+                mapping: Object.assign(map, govEthMapping)
+            }
+            console.log(state);
             return state
         case RETRIEVE_TRAVEL_HISTORY:
             return {

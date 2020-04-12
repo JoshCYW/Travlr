@@ -13,6 +13,7 @@ const userSchema = new Schema({
     unique: true,
   },
   username: { type: String, unique: true },
+  type: { type: String, allowNull: false }
 });
 
 module.exports = mongoose.model("User", userSchema);

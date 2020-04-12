@@ -1,6 +1,7 @@
 import store from '../store/index'
 import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT } from '../constants'
 import { TRAVLR_ADDRESS } from '../config'
+import axios from 'axios'
 
 export const createGovernment = (ownerAddress, countryCode) => dispatch => {
     const { travlrTruffleInstance, accounts } = store.getState().blockchain
@@ -10,15 +11,23 @@ export const createGovernment = (ownerAddress, countryCode) => dispatch => {
         })
     }).then(result => {
         var address = result.receipt.logs[0].address
-        let mapping = {
-            address: ownerAddress
-        }
-        dispatch({
-            type: CREATE_GOVERNMENT,
-            payload: {
-                govAddress: address,
-                govEthMapping: mapping
+        // create new entry in mongo
+        axios.post('http://localhost:4000/user', {
+            username: countryCode,
+            publicAddress: ownerAddress,
+            type: 'GOVERNMENT'
+        }).then(response => {
+            console.log('successfully created government entity: ', response.data)
+            let mapping = {
+                address: ownerAddress
             }
+            dispatch({
+                type: CREATE_GOVERNMENT,
+                payload: {
+                    govAddress: address,
+                    govEthMapping: mapping
+                }
+            })
         })
     }).catch(err => {
         console.log(err)

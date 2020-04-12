@@ -6,7 +6,7 @@ export const Login = async (props) => {
   const [publicAddress, setPublicAddress] = useState("");
 
   const handleClick = async () => {
-    const publicAddress = web3.eth.coinbase.toLowerCase();
+    const publicAddress = web3.eth.coinbase;
 
     // Check if user with current publicAddress is already present on back end
     await axios

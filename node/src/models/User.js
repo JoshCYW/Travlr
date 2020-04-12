@@ -11,7 +11,6 @@ const userSchema = new Schema({
     allowNull: false,
     type: String,
     unique: true,
-    validate: { isLowercase: true },
   },
   username: { type: String, unique: true },
 });

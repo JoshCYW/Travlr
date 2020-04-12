@@ -45,7 +45,7 @@ router.post(`/`, async (req, res) => {
 });
 
 //GET /user/address/${address}/signature/${signature}
-router.get(`/publicAddress/:publicAddress/signature/:signature`, async (req, res) => {
+router.get(`/address/:publicAddress/signature/:signature`, async (req, res) => {
   console.log(`GET ${req.originalUrl}`);
 
   try {

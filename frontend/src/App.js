@@ -25,7 +25,7 @@ export const App = () => {
       <Switch>
         <Route exact path='/login' component={Login} />
         <Route exact path='/admin' component={authenticatedPage(Home)} />
-        <Redirect exact from='/' to='/home' />
+        <Redirect exact from='/' to='/admin' />
       </Switch>
     </div>
   );

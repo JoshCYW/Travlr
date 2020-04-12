@@ -2,6 +2,7 @@ import store from '../store/index'
 import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT, CLEAR_TRAVEL_HISTORY } from '../constants'
 import { TRAVLR_ADDRESS } from '../config'
 import axios from 'axios'
+import storage from '../utils/storage'
 
 export const createGovernment = (ownerAddress, countryCode) => dispatch => {
     const { travlrTruffleInstance, accounts } = store.getState().blockchain
@@ -15,7 +16,8 @@ export const createGovernment = (ownerAddress, countryCode) => dispatch => {
         axios.post('http://localhost:4000/user', {
             username: countryCode,
             publicAddress: ownerAddress,
-            type: 'GOVERNMENT'
+            type: 'GOVERNMENT',
+            contractAddress: result.receipt.logs[0].address
         }).then(response => {
             console.log('successfully created government entity: ', response.data)
             let mapping = {
@@ -36,15 +38,16 @@ export const createGovernment = (ownerAddress, countryCode) => dispatch => {
 
 export const createPassport = (gov, passportNum, owner) => dispatch => {
     const { govtTruffleInstance } = store.getState().blockchain
-    console.log(gov, passportNum)
+    let contractAddress = storage.get('contractAddress')
+    console.log(contractAddress, passportNum)
     let owner;
-    govtTruffleInstance.at(gov).then(instance => {
+    govtTruffleInstance.at(contractAddress).then(instance => {
         console.log(instance)
         return instance.owner()
     }).then(result => {
         console.log('owner: ', result)
         owner = result
-        govtTruffleInstance.at(gov).then(instance => {
+        govtTruffleInstance.at(contractAddress).then(instance => {
             return instance.createEthPassport(owner, passportNum, {
                 from: result
             })
@@ -55,7 +58,7 @@ export const createPassport = (gov, passportNum, owner) => dispatch => {
             dispatch({
                 type: CREATE_PASSPORT,
                 payload: {
-                    government: gov,
+                    government: contractAddress,
                     passportAddress: address
                 }
             })

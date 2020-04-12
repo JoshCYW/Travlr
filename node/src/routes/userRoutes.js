@@ -42,7 +42,8 @@ router.post(`/`, async (req, res) => {
     const user = new User({
       publicAddress: req.body.publicAddress,
       username: req.body.username,
-      type: req.body.type
+      type: req.body.type,
+      contractAddress: req.body.contractAddress
     });
     let newUser = await user.save();
     console.log("new user record successfully created", newUser);
@@ -86,10 +87,7 @@ router.get(`/address/:publicAddress/signature/:signature`, async (req, res) => {
         );
         const addressBuffer = ethUtil.publicToAddress(publicKey);
         const address = ethUtil.bufferToHex(addressBuffer);
-        console.log(req.params.publicAddress)
-        console.log(address)
-        console.log(address == req.params.publicAddress)
-        console.log(address.toString() === req.params.publicAddress.toString())
+
         // The signature verification is successful if the address found with
         // ecrecover matches the initial publicAddress
         if (address.toLowerCase() === req.params.publicAddress.toLowerCase()) {

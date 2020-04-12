@@ -57,7 +57,7 @@ export const Login = (props) => {
       .then((response) => {
         return response.data
       }).then(user => {
-        console.log('user type: ', user.type)
+        storage.set("contractAddress", user.contractAddress)
         storage.set("type", user.type);
         return handleSignMessage(user)
       }).then(response => {

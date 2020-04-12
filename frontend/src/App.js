@@ -13,12 +13,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HotelIcon from '@material-ui/icons/Hotel';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
 import GavelIcon from '@material-ui/icons/Gavel';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Box } from '@material-ui/core';
 import { Hotel } from './components/Hotel';
 import { Immigration } from './components/Immigration';
 import { Government } from './components/Government';
 import { loadBlockChainData } from './actions/blockchain';
 import { useDispatch } from 'react-redux';
+import { Admin } from './components/admin';
 
 const drawerWidth = 240;
 
@@ -59,6 +61,7 @@ export const App = () => {
     'Hotel': <Hotel drawerWidth={drawerWidth} />,
     'Immigration': <Immigration drawerWidth={drawerWidth} />,
     'Government': <Government drawerWidth={drawerWidth} />,
+    'Admin': <Admin drawerWidth={drawerWidth} />,
   })
 
   const classes = useStyles();
@@ -87,9 +90,9 @@ export const App = () => {
           </div>
           <Divider />
           <List>
-            {['Hotel', 'Immigration', 'Government'].map((text, index) => (
+            {['Hotel', 'Immigration', 'Government', 'Admin'].map((text, index) => (
               <ListItem button key={text} onClick={() => _handleNavigation(text)} style={{ backgroundColor: tab == text && '#e0e0e0' }}>
-                <ListItemIcon>{index == 0 ? <HotelIcon /> : index == 1 ? <TransferWithinAStationIcon /> : <GavelIcon />}</ListItemIcon>
+                <ListItemIcon>{index == 0 ? <HotelIcon /> : index == 1 ? <TransferWithinAStationIcon /> : index == 2 ? <GavelIcon /> : <SupervisorAccountIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}

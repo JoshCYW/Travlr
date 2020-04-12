@@ -18,6 +18,13 @@ import { ImmigrationForm } from './ImmigrationForm';
 import { HotelForm } from './HotelForm';
 import { retrieveTravelHistory } from '../actions/government';
 import storage from '../utils/storage';
+import { retrieveTravelHistory, filterTravelHistory } from '../actions/government';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+import moment from 'moment'
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,13 +49,15 @@ const useStyles = makeStyles(theme => ({
 
 export const Government = (props) => {
     const { governments, passportBook, travelHistories } = useSelector(state => state.government)
-    const { ethPassportTruffleInstance, govtTruffleInstance } = useSelector(state => state.blockchain)
+    const { govtTruffleInstance } = useSelector(state => state.blockchain)
     const [govt, setGovt] = useState('')
     const [passport, setPassport] = useState('')
     const [status, setStatus] = useState(false)
     const [isVisible, setVisibility] = useState(false)
     const [isImmigrationFormVisible, setImmigrationVisibility] = useState(false)
     const [isHotelFormVisible, setHotelVisibility] = useState(false)
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
     const classes = useStyles();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -80,6 +89,12 @@ export const Government = (props) => {
     const getHistory = () => {
         console.log("getting history");
         dispatch(retrieveTravelHistory(storage.get('contractAddress'), passport.trim()));
+    }
+
+    const getHistoryByDates = async () => {
+        let sd = moment(startDate).valueOf()
+        let ed = moment(endDate).valueOf()
+        dispatch(filterTravelHistory(sd,ed));
     }
 
     const checkHealth = () => {
@@ -194,7 +209,44 @@ export const Government = (props) => {
                     >
                         Create Hotel
                     </Button>
+                    <Button
+                        onClick={() => getHistoryByDates()}
+                        disabled={passport.length == 0}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Filter Travel History by Dates
+                    </Button>
                     <p>Status:  <Typography variant='overline' style={{ color: status == false ? 'red' : 'green', fontWeight: 'bold', fontSize: 15 }}>{status == false ? 'Not Healthy' : 'Healthy'}</Typography></p>
+                    <Box>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker required className={classes.input}
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="Start Date:"
+                            format="MM/dd/yyyy"
+                            value={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                        <KeyboardDatePicker required className={classes.input}
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="End Date:"
+                            format="MM/dd/yyyy"
+                            value={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
+                </Box>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

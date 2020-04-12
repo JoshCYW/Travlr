@@ -1,5 +1,5 @@
 //update address value if you redeploy ganache
-export const TRAVLR_ADDRESS = '0x111bab694D546Da16bBb7B97cA8799302f6D6C63'
+export const TRAVLR_ADDRESS = '0xb4C687f0AA64d13C228F38859d4E278BaA99FA2c'
 export const TRAVLR_ABI = [
   {
     "inputs": [],

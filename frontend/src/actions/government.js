@@ -1,5 +1,5 @@
 import store from '../store/index'
-import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT, CLEAR_TRAVEL_HISTORY } from '../constants'
+import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT, CLEAR_TRAVEL_HISTORY, FILTER_TRAVEL_HISTORY } from '../constants'
 import { TRAVLR_ADDRESS } from '../config'
 import axios from 'axios'
 import storage from '../utils/storage'
@@ -111,6 +111,15 @@ export const retrieveTravelHistory = (gov, passportAddress) => dispatch => {
             })
     }).catch(function (error) {
         console.log(error)
+    })
+}
+
+export const filterTravelHistory = (startDate, endDate) => dispatch => {
+    const { travelHistories } = store.getState().government
+    let filtered = travelHistories.filter(travelHistory => startDate <= Number((travelHistory.timestamp + 1543503872) * 1000) &&  Number((travelHistory.timestamp + 1543503872) * 1000) <= endDate );
+    dispatch({
+        type: FILTER_TRAVEL_HISTORY,
+        payload: filtered
     })
 }
 

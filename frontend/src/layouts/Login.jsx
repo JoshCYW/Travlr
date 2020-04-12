@@ -58,6 +58,7 @@ export const Login = (props) => {
         return response.data
       }).then(user => {
         storage.set("contractAddress", user.contractAddress)
+        storage.set("publicAddress", user.publicAddress)
         storage.set("type", user.type);
         return handleSignMessage(user)
       }).then(response => {

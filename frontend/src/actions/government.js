@@ -1,8 +1,8 @@
 import store from '../store/index'
 import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY } from '../constants'
 
-export const createPassport = (gov, passportNum) => dispatch => {
-    const { govtTruffleInstance, accounts } = store.getState().blockchain
+export const createPassport = (gov, passportNum, owner) => dispatch => {
+    const { govtTruffleInstance } = store.getState().blockchain
     console.log(gov, passportNum)
     let owner;
     govtTruffleInstance.at(gov).then(instance => {
@@ -12,7 +12,7 @@ export const createPassport = (gov, passportNum) => dispatch => {
         console.log('owner: ', result)
         owner = result
         govtTruffleInstance.at(gov).then(instance => {
-            return instance.createEthPassport(accounts[9], passportNum, {
+            return instance.createEthPassport(owner, passportNum, {
                 from: result
             })
         }).then(result => {

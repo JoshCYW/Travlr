@@ -1,14 +1,14 @@
 import store from '../store/index'
 import { CREATE_IMMIGRATION_PORT } from '../constants';
 
-export const createImmigration = (gov, portName, long, lat) => dispatch => {
-    const { govtTruffleInstance, accounts } = store.getState().blockchain
+export const createImmigration = (gov, portName, long, lat, owner) => dispatch => {
+    const { govtTruffleInstance } = store.getState().blockchain
     govtTruffleInstance.at(gov).then(instance => {
         return instance.owner()
     }).then(result => {
         console.log('owner: ', result)
         govtTruffleInstance.at(gov).then(instance => {
-            return instance.assignImmmigration(accounts[3], portName, long, lat, {
+            return instance.assignImmmigration(owner, portName, long, lat, {
                 from: result
             })
         }).then(result => {

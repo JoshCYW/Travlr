@@ -47,7 +47,7 @@ router.get(`/contractAddress/:contractAddress`, async (req, res) => {
 
 //GET /hotel/contractAddress/${contractAddress}/start/${startDate}/end/${endDate}
 router.get(
-  `/contractAddress/:contractAddress/start/:startDate/end/:endDate`,
+  `/contractAddress/:contractAddress/ethPassport/:ethPassport/start/:startDate/end/:endDate`,
   async (req, res) => {
     console.log(`GET ${req.originalUrl}`);
 
@@ -66,6 +66,7 @@ router.get(
 
       const hotels = await Hotel.find({
         contractAddress: req.params.contractAddress,
+        ethPassport: req.params.ethPassport,
         date: { $in: dates },
       });
 

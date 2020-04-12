@@ -16,6 +16,7 @@ export const ImmigrationForm = (props) => {
     const dispatch = useDispatch()
     const { isVisible, setVisibility, govt } = props
     const [portName, setPortName] = useState('')
+    const [owner, setOwner] = useState('')
     const [long, setLong] = useState('')
     const [lat, setLat] = useState('')
 
@@ -24,8 +25,7 @@ export const ImmigrationForm = (props) => {
     }
 
     const handleCreate = () => {
-        console.log(govt, portName, long, lat)
-        dispatch(createImmigration(govt, portName, long, lat))
+        dispatch(createImmigration(govt, portName, long, lat, owner))
         setVisibility(false)
     }
 
@@ -40,6 +40,14 @@ export const ImmigrationForm = (props) => {
                     label="Port Name"
                     fullWidth
                     onChange={e => setPortName(e.target.value)}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Account Owner"
+                    fullWidth
+                    onChange={e => setOwner(e.target.value)}
                 />
                 <TextField
                     autoFocus

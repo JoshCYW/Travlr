@@ -15,14 +15,14 @@ export const PassportForm = (props) => {
     const dispatch = useDispatch()
     const { isVisible, setVisibility, govt } = props
     const [num, setNum] = useState('')
+    const [owner, setOwner] = useState('')
 
     const handleClose = () => {
         setVisibility(false);
     }
 
     const handleCreate = () => {
-        console.log(num)
-        dispatch(createPassport(govt, num))
+        dispatch(createPassport(govt, num, owner))
         setVisibility(false)
     }
 
@@ -37,6 +37,14 @@ export const PassportForm = (props) => {
                     label="Passport Number"
                     fullWidth
                     onChange={e => setNum(e.target.value)}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Account Owner"
+                    fullWidth
+                    onChange={e => setOwner(e.target.value)}
                 />
             </DialogContent>
             <DialogActions>

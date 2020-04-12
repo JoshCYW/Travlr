@@ -13,6 +13,7 @@ export const HotelForm = (props) => {
     const dispatch = useDispatch()
     const { isVisible, setVisibility, govt } = props
     const [hotelName, setHotelName] = useState('')
+    const [owner, setOwner] = useState('')
     const [long, setLong] = useState('')
     const [lat, setLat] = useState('')
 
@@ -21,8 +22,7 @@ export const HotelForm = (props) => {
     }
 
     const handleCreate = () => {
-        console.log(govt, hotelName, lat, long)
-        dispatch(createHotel(govt, hotelName, lat, long))
+        dispatch(createHotel(govt, hotelName, lat, long, owner))
         setVisibility(false)
     }
 
@@ -37,6 +37,14 @@ export const HotelForm = (props) => {
                     label="Hotel Name"
                     fullWidth
                     onChange={e => setHotelName(e.target.value)}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Account Owner"
+                    fullWidth
+                    onChange={e => setOwner(e.target.value)}
                 />
                 <TextField
                     autoFocus

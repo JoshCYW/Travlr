@@ -86,7 +86,7 @@ export const App = () => {
           <div className={classes.toolbar}>
             <Box style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Typography style={{ fontWeight: 600 }}>
-                Travelr
+                Travlr
               </Typography>
             </Box>
           </div>

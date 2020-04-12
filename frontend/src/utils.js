@@ -19,7 +19,8 @@ export function tempHelper(temp) {
 }
 
 export function dateHelper(date) {
-    var dateObject = new Date((date*100000).toISOString);
+    var correctTime = date + 1543503872;
+    var dateObject = new Date((correctTime*1000));
     return formatDate(dateObject);
 }
 

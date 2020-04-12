@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 build/
+
+frontend/src/config.js

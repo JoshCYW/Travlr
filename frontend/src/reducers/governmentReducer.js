@@ -1,4 +1,4 @@
-import { PRELOAD_GOVERNMENT, CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT } from "../constants";
+import { PRELOAD_GOVERNMENT, CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT, CLEAR_TRAVEL_HISTORY } from "../constants";
 
 const initialState = {
     travelHistories: [],
@@ -51,6 +51,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 travelHistories: action.payload
+            }
+        case CLEAR_TRAVEL_HISTORY:
+            return {
+                ...state,
+                travelHistories: [],
             }
         default:
             return state;

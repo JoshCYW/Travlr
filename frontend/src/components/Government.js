@@ -83,7 +83,7 @@ export const Government = (props) => {
 
     const getHistory = () => {
         console.log("getting history");
-        dispatch(retrieveTravelHistory(govt, passport));
+        dispatch(retrieveTravelHistory(govt, passport.trim()));
     }
 
     const checkHealth = () => {

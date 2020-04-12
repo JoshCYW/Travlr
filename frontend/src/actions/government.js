@@ -1,5 +1,5 @@
 import store from '../store/index'
-import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT } from '../constants'
+import { CREATE_PASSPORT, RETRIEVE_TRAVEL_HISTORY, CREATE_GOVERNMENT, CLEAR_TRAVEL_HISTORY } from '../constants'
 import { TRAVLR_ADDRESS } from '../config'
 import axios from 'axios'
 
@@ -108,5 +108,11 @@ export const retrieveTravelHistory = (gov, passportAddress) => dispatch => {
             })
     }).catch(function (error) {
         console.log(error)
+    })
+}
+
+export const clearTravelHistory = () => dispatch => {
+    dispatch({
+        type: CLEAR_TRAVEL_HISTORY
     })
 }

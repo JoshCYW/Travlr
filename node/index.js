@@ -9,6 +9,7 @@ const cors = require("cors");
 // Import routers
 const immigrationRouter = require("./src/routes/immigrationRoutes");
 const hotelRouter = require("./src/routes/hotelRoutes");
+const userRouter = require("./src/routes/userRoutes");
 
 // Set up middlewares
 const app = express();
@@ -30,6 +31,7 @@ mongoose.connect(
 // Set up application with routers
 app.use("/immigration", immigrationRouter);
 app.use("/hotel", hotelRouter);
+app.use("/user", userRouter);
 
 const PORT = process.env.PORT;
 

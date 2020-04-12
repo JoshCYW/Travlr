@@ -1,37 +1,17 @@
 # Unified Travlr Application with React Frontend/Node backend & Solidity Contracts
+This application is split into 3 layers; backend (.sol code), node (node.js with mongoDB) and frontend (react.js).
 
-## backend 
+## 1. backend 
 
-run Ganache
-``ganache-cli``
+run ganache using the GUI on localhost:8545
 
 run truffle migrate 
 ``cd <backend folder>``
 ``truffle migrate``
 
-## node
+you will need `Travlr's contract address` that outputs from the migration for the frontend code later on
 
-### if first time
-``npm install``
-
-### then
-``npm start``
-
-
-## other commands
-
-generate build files to update config.js
-``truffle build``
-
-
-
-
-
-
-
-## backend (ganache, truffle, solidity)
-
-#### Steps to deploy contracts
+#### Developer's Note: Steps to deploy contracts
 1. Deploy `Travlr` using acc[0]
 2. Call assignGovernment(acc[1], ctry) in `Travlr`, get Govt Address in output
 3. Deploy `Government` using Govt Address output from step 2
@@ -43,13 +23,30 @@ generate build files to update config.js
 9. Call other functions :)
 
 
-## node (react, node)
+## 2. node
+node connects to a centralised mongo database which stores an immigration and a hotel's travel history
+
+### if first time
+``cd <node folder>``
+``npm install``
+
+### then
+``npm run server``
+
+
+## 3. frontend
+
+Paste `Travlr's contract address` obtained from the backend truffle migrate at frontend/src/config.js `TRAVLR_ADDRESS` field
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Available Scripts
 
 In the project directory, you can run:
+
+### if first time
+``cd <backend folder>``
+``npm install``
 
 #### `npm start`
 

@@ -22,6 +22,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
+import { IMMIGRATION_API } from '../api';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,36 +61,46 @@ export const Immigration = (props) => {
         // 0 arrive , 1 depart
         setType(stat == 0 ? 'Arrvied' : 'Departed')
         console.log(value, stat, parseInt(parseFloat(temp) * 10), immigration)
-        immigrationTruffleInstance.at(immigration).then(instance => {
-            console.log(instance)
-            return instance.owner()
-        }).then(result => {
-            console.log('Owner of Immigration Contract: ', result)
+
+        const blockchainPromise = new Promise((resolve, reject) => {
             immigrationTruffleInstance.at(immigration).then(instance => {
-                return instance.updateEthPassport(value, stat, parseInt(parseFloat(temp) * 10), {
-                    from: result
-                })
-            }).then(async result => {
-                console.log('what result shows: ', result)
-                // show successful snackbar
-                let body = {
-                    ethPassport: value,
-                    direction: stat == 2 ? "ENTRY" : "EXIT",
-                    temp: parseInt(parseFloat(temp) * 10)
-                }
-                await axios.post('http://localhost:4000/immigration/contractAddress/' + immigration,{
-                   ...body 
-                }).then(response =>{
-                    console.log(response.data)
-                    setOpen(true)
-                }).catch(error =>{
-                    console.log(error)
+                console.log(instance)
+                return instance.owner()
+            }).then(result => {
+                console.log('Owner of Immigration Contract: ', result)
+                immigrationTruffleInstance.at(immigration).then(instance => {
+                    return instance.updateEthPassport(value, stat, parseInt(parseFloat(temp) * 10), {
+                        from: result
+                    })
+                }).then(async result => {
+                    resolve('Successfully Executed Blockchain Transaction')
+                }).catch(error => {
+                    reject(error)
                 })
 
             }).catch(error => {
-                console.log(error)
+                reject(error)
             })
+        })
 
+        const mongoPromise = new Promise(async (resolve, reject) => {
+            let body = {
+                ethPassport: value,
+                direction: stat == 2 ? "ENTRY" : "EXIT",
+                temp: parseInt(parseFloat(temp) * 10)
+            }
+            await axios.post(IMMIGRATION_API + immigration, {
+                ...body
+            }).then(response => {
+                resolve('Successfully Executed Mongo Transaction')
+            }).catch(error => {
+                reject(error)
+            })
+        })
+
+        Promise.all([blockchainPromise, mongoPromise]).then(values => {
+            console.log(values)
+            setOpen(true)
         }).catch(error => {
             console.log(error)
         })
@@ -98,7 +109,7 @@ export const Immigration = (props) => {
     const getHistory = async () => {
         let sd = moment(startDate).valueOf()
         let ed = moment(endDate).valueOf()
-        await axios.get('http://localhost:4000/immigration/contractAddress/' + immigration + '/start/' + sd + '/end/' + ed)
+        await axios.get(IMMIGRATION_API + immigration + '/ethPassport/' + value + '/start/' + sd + '/end/' + ed)
             .then(response => {
                 console.log(response.data)
                 setRows(response.data)
@@ -111,7 +122,7 @@ export const Immigration = (props) => {
     }
 
     const getAllHistory = async () => {
-        await axios.get('http://localhost:4000/immigration/contractAddress/' + immigration)
+        await axios.get(IMMIGRATION_API + immigration)
             .then(response => {
                 console.log(response.data)
                 setRows(response.data)

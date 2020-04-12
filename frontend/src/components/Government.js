@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ImmigrationForm } from './ImmigrationForm';
 import { HotelForm } from './HotelForm';
 import { retrieveTravelHistory } from '../actions/government';
+import storage from '../utils/storage';
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,12 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl1: {
         margin: theme.spacing(1),
-        width: '50%',
-        height: '100%'
-    },
-    formControl2: {
-        margin: theme.spacing(1),
-        width: '28%',
+        width: '68%',
         height: '100%'
     },
     table: {
@@ -63,11 +59,11 @@ export const Government = (props) => {
     }, [passport])
 
     const flagHealth = (health) => {
-        govtTruffleInstance.at(govt).then(instance => {
+        govtTruffleInstance.at(storage.get('contractAddress')).then(instance => {
             return instance.owner()
         }).then(result => {
             console.log('owner: ', result)
-            govtTruffleInstance.at(govt).then(instance => {
+            govtTruffleInstance.at(storage.get('contractAddress')).then(instance => {
                 return instance.setHealth(passport, health, {
                     from: result
                 })
@@ -83,14 +79,14 @@ export const Government = (props) => {
 
     const getHistory = () => {
         console.log("getting history");
-        dispatch(retrieveTravelHistory(govt, passport.trim()));
+        dispatch(retrieveTravelHistory(storage.get('contractAddress'), passport.trim()));
     }
 
     const checkHealth = () => {
-        govtTruffleInstance.at(govt).then(instance => {
+        govtTruffleInstance.at(storage.get('contractAddress')).then(instance => {
             return instance.owner()
         }).then(result => {
-            govtTruffleInstance.at(govt).then(instance => {
+            govtTruffleInstance.at(storage.get('contractAddress')).then(instance => {
                 return instance.isHealthy(passport, {
                     from: result
                 })
@@ -124,12 +120,12 @@ export const Government = (props) => {
                         <Select
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
-                            value={passportBook[govt]}
+                            value={passportBook[storage.get('contractAddress')]}
                             onChange={(event) => setPassport(event.target.value)}
                             label="Government Contract Address"
                         >
                             {
-                                passportBook[govt] != null && passportBook[govt].map(item => {
+                                passportBook[storage.get('contractAddress')] != null && passportBook[storage.get('contractAddress')].map(item => {
                                     return <MenuItem key={item} value={item}>{item}</MenuItem>
                                 })
                             }
@@ -139,27 +135,11 @@ export const Government = (props) => {
                         onClick={() => setVisibility(true)}
                         variant="outlined"
                         color='primary'
-                        style={{ width: '18%', height: 56 }}
+                        style={{ width: '30%', height: 56 }}
                         startIcon={<AddIcon />}
                     >
                         Create Passport
                     </Button>
-                    <FormControl variant="outlined" className={classes.formControl2}>
-                        <InputLabel id="demo-simple-select-outlined-label">Government</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={govt}
-                            onChange={(event) => setGovt(event.target.value)}
-                            label="Government Contract Address"
-                        >
-                            {
-                                governments.map(item => {
-                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
-                                })
-                            }
-                        </Select>
-                    </FormControl>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
@@ -202,7 +182,6 @@ export const Government = (props) => {
                         color="secondary"
                         className={classes.button}
                         startIcon={<AddIcon />}
-                        disabled={govt.length == 0}
                     >
                         Create Immigration
                     </Button>
@@ -212,7 +191,6 @@ export const Government = (props) => {
                         color="secondary"
                         className={classes.button}
                         startIcon={<AddIcon />}
-                        disabled={govt.length == 0}
                     >
                         Create Hotel
                     </Button>
@@ -222,7 +200,7 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {/* table */}
                 <Box style={{ width: '90%' }}>
-                    <TravelHistoryPage 
+                    <TravelHistoryPage
                         travelHistories={travelHistories === undefined ? [] : travelHistories}
                     />
                 </Box>

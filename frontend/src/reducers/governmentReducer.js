@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
                 ppb[governments[i]] = []
             }
             state = {
-                ... state,
+                ...state,
                 governments: action.payload.governments,
                 passportBook: ppb,
                 mapping
@@ -27,6 +27,7 @@ export default function (state = initialState, action) {
             const { passportAddress, government } = action.payload
             console.log(passportAddress, government)
             let passportBook = state.passportBook
+            passportBook[government] = passportBook[government] == null && []
             passportBook[government].push(passportAddress)
             state = {
                 ...state,
@@ -34,7 +35,7 @@ export default function (state = initialState, action) {
             }
             console.log(state)
             return state
-        case CREATE_GOVERNMENT: 
+        case CREATE_GOVERNMENT:
             const { govAddress, govEthMapping } = action.payload
             let pp = state.passportBook
             let map = state.mapping

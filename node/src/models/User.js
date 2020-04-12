@@ -13,6 +13,8 @@ const userSchema = new Schema({
     unique: true,
   },
   username: { type: String, unique: true },
+  type: { type: String, allowNull: false },
+  contractAddress: { type: String, allowNull: false, unique: true }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -16,7 +16,6 @@ import { PassportForm } from './PassportForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImmigrationForm } from './ImmigrationForm';
 import { HotelForm } from './HotelForm';
-import { retrieveTravelHistory } from '../actions/government';
 import storage from '../utils/storage';
 import { retrieveTravelHistory, filterTravelHistory } from '../actions/government';
 import DateFnsUtils from '@date-io/date-fns';

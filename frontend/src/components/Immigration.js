@@ -23,6 +23,7 @@ import Paper from '@material-ui/core/Paper';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { IMMIGRATION_API } from '../api';
+import storage from '../utils/storage';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,7 +49,8 @@ export const Immigration = (props) => {
     const { immigrationTruffleInstance } = useSelector(state => state.blockchain)
     const { immigrationList } = useSelector(state => state.immigrations)
     const [value, setValue] = useState('')
-    const [immigration, setImmigration] = useState('')
+    const immigration = storage.get('contractAddress')
+    const immigrationOwner = storage.get('publicAddress')
     const [temp, setTemp] = useState('')
     const [type, setType] = useState('')
     const [open, setOpen] = useState(false)
@@ -65,12 +67,12 @@ export const Immigration = (props) => {
         const blockchainPromise = new Promise((resolve, reject) => {
             immigrationTruffleInstance.at(immigration).then(instance => {
                 console.log(instance)
-                return instance.owner()
+                return instance.owner() //wrongly returning ethPassport Address?
             }).then(result => {
-                console.log('Owner of Immigration Contract: ', result)
+                console.log('Owner of Immigration Contract: ', immigrationOwner)
                 immigrationTruffleInstance.at(immigration).then(instance => {
                     return instance.updateEthPassport(value, stat, parseInt(parseFloat(temp) * 10), {
-                        from: result
+                        from: immigrationOwner
                     })
                 }).then(async result => {
                     resolve('Successfully Executed Blockchain Transaction')
@@ -138,7 +140,7 @@ export const Immigration = (props) => {
                     {/* input */}
                     <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
-                    <FormControl variant="outlined" className={classes.formControl}>
+                    {/* <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">Immigration</InputLabel>
                         <Select
                             labelId="demo-simple-select-outlined-label"
@@ -153,7 +155,7 @@ export const Immigration = (props) => {
                                 })
                             }
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingTop: 30, paddingBottom: 30 }}>

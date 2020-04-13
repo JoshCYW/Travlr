@@ -94,7 +94,7 @@ export const Government = (props) => {
     const getHistoryByDates = async () => {
         let sd = moment(startDate).valueOf()
         let ed = moment(endDate).valueOf()
-        dispatch(filterTravelHistory(sd,ed));
+        dispatch(filterTravelHistory(sd, ed));
     }
 
     const checkHealth = () => {
@@ -130,22 +130,6 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
                 <Box className={classes.root} style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-                    {/* <FormControl variant="outlined" className={classes.formControl1}>
-                        <InputLabel id="demo-simple-select-outlined-label">Passport Number</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={passportBook[storage.get('contractAddress')]}
-                            onChange={(event) => setPassport(event.target.value)}
-                            label="Government Contract Address"
-                        >
-                            {
-                                passportBook[storage.get('contractAddress')] != null && passportBook[storage.get('contractAddress')].map(item => {
-                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
-                                })
-                            }
-                        </Select>
-                    </FormControl> */}
                     <Button
                         onClick={() => setVisibility(true)}
                         variant="outlined"
@@ -178,7 +162,7 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
                 <Box style={{ width: '80%', }}>
                     {/* buttons */}
-                    <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined"  onChange={(e) => setPassport(e.target.value)}/>
+                    <TextField className={classes.root} id="outlined-basic" label="Passport Address" variant="outlined" onChange={(e) => setPassport(e.target.value)} />
                     <Button
                         onClick={() => flagHealth(false)}
                         variant="contained"
@@ -201,55 +185,55 @@ export const Government = (props) => {
                     </Button>
                     <p>Status:  <Typography variant='overline' style={{ color: status == false ? 'red' : 'green', fontWeight: 'bold', fontSize: 15 }}>{status == false ? 'Not Healthy' : 'Healthy'}</Typography></p>
                     <Box>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker required className={classes.input}
-                            margin="normal"
-                            id="date-picker-dialog"
-                            label="Start Date:"
-                            format="MM/dd/yyyy"
-                            value={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                        <KeyboardDatePicker required className={classes.input}
-                            margin="normal"
-                            id="date-picker-dialog"
-                            label="End Date:"
-                            format="MM/dd/yyyy"
-                            value={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
-                    <Button
-                        onClick={() => getHistoryByDates()}
-                        disabled={passport.length == 0}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Filter Travel History by Dates
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker required className={classes.input}
+                                margin="normal"
+                                id="date-picker-dialog"
+                                label="Start Date:"
+                                format="MM/dd/yyyy"
+                                value={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                            <KeyboardDatePicker required className={classes.input}
+                                margin="normal"
+                                id="date-picker-dialog"
+                                label="End Date:"
+                                format="MM/dd/yyyy"
+                                value={endDate}
+                                onChange={(date) => setEndDate(date)}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </MuiPickersUtilsProvider>
+                        <Button
+                            onClick={() => getHistoryByDates()}
+                            disabled={passport.length == 0}
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                            startIcon={<SearchIcon />}
+                        >
+                            Filter Travel History by Dates
                     </Button>
-                </Box>
-                <Box>
-                <Button
-                        onClick={() => getHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        disabled={passport.length == 0}
-                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get All Travel History
+                    </Box>
+                    <Box>
+                        <Button
+                            onClick={() => getHistory()}
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            disabled={passport.length == 0}
+                            style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                            startIcon={<SearchIcon />}
+                        >
+                            Get All Travel History
                     </Button>
-                </Box>
+                    </Box>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

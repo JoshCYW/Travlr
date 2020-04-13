@@ -16,6 +16,7 @@ export function authenticatedPage(Component) {
 
         render() {
             const token = storage.get("accessToken")
+            console.log('retrrieved token: ', token)
             if (token) {
                 return this.renderPage()
             } else {

@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
-import history from '../history';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HotelIcon from '@material-ui/icons/Hotel';
-import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
-import GavelIcon from '@material-ui/icons/Gavel';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import { Box } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { loadBlockChainData } from '../actions/blockchain';
 import { useDispatch } from 'react-redux';
 
@@ -23,6 +14,7 @@ import { Immigration } from '../components/Immigration';
 import { Government } from '../components/Government';
 import { Admin } from '../components/admin';
 import storage from '../utils/storage';
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -52,6 +44,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const Home = () => {
   const dispatch = useDispatch()
+  const history = useHistory();
+  const [tab, setTab] = useState('Government')
+  const [component, setComponent] = useState([
+    <Admin drawerWidth={drawerWidth} />,
+    <Government drawerWidth={drawerWidth} />,
+    <Hotel drawerWidth={drawerWidth} />,
+    <Immigration drawerWidth={drawerWidth} />,
+  ])
+  const [id, setId] = useState(0)
+  const classes = useStyles();
 
   useEffect(() => {
     const type = storage.get('type')
@@ -67,21 +69,12 @@ export const Home = () => {
     dispatch(loadBlockChainData())
   }, []);
 
-
-  const [tab, setTab] = useState('Government')
-  const [component, setComponent] = useState([
-    <Admin drawerWidth={drawerWidth} />,
-    <Government drawerWidth={drawerWidth} />,
-    <Hotel drawerWidth={drawerWidth} />,
-    <Immigration drawerWidth={drawerWidth} />,
-  ])
-  const [id, setId] = useState(0)
-
-
-
-  const classes = useStyles();
-  const _handleNavigation = (text) => {
-    setTab(text)
+  const performLogout = () => {
+    storage.remove("accessToken")
+    storage.remove("refreshToken")
+    storage.remove("publicAddress")
+    storage.remove("contractAddress")
+    window.location.reload()
   }
 
   return (
@@ -100,6 +93,13 @@ export const Home = () => {
               <Typography style={{ fontWeight: 600 }}>
                 Travelr
               </Typography>
+            </Box>
+            <Box>
+              <Button onClick={() => performLogout()}>
+                <Typography style={{ fontWeight: 'bold', fontSize: 15 }}>
+                  Log out
+                </Typography>
+              </Button>
             </Box>
           </div>
           <Divider />

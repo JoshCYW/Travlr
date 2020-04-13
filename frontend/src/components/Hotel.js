@@ -28,11 +28,11 @@ import storage from "../utils/storage";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '43%',
+        width: '68%',
         margin: theme.spacing(1),
     },
     temp: {
-        width: '20%',
+        width: '30%',
         margin: theme.spacing(1),
     },
     button: {
@@ -61,7 +61,6 @@ export const Hotel = (props) => {
     const classes = useStyles();
 
     const handleChecking = (stat) => {
-        // 0 arrive , 1 depart
         setType(stat == 2 ? 'Checked-In' : 'Checked-Out')
         console.log(value, stat, parseInt(parseFloat(temp) * 10), hotel)
 
@@ -139,24 +138,8 @@ export const Hotel = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 <Box style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
                     {/* input */}
-                    <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <TextField className={classes.root} id="outlined-basic" label="Passport Address" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
-                    {/* <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-outlined-label">Hotel</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            value={hotel}
-                            onChange={(event) => setHotel(event.target.value)}
-                            label="Hotel Contract Address"
-                        >
-                            {
-                                hotelList.map(item => {
-                                    return <MenuItem key={item} value={item}>{item}</MenuItem>
-                                })
-                            }
-                        </Select>
-                    </FormControl> */}
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingTop: 30, paddingBottom: 30 }}>

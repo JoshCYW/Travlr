@@ -27,7 +27,9 @@ export default function (state = initialState, action) {
             const { passportAddress, government } = action.payload
             console.log(passportAddress, government)
             let passportBook = state.passportBook
-            passportBook[government] = passportBook[government] == null && []
+            if (passportBook[government] == null) {
+                passportBook[government] = []
+            }
             passportBook[government].push(passportAddress)
             state = {
                 ...state,

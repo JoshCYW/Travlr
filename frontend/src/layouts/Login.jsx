@@ -77,19 +77,6 @@ export const Login = (props) => {
       })
   };
 
-  const handleSignup = async (publicAddress) => {
-    let body = {
-      publicAddress: publicAddress,
-      username: username,
-    };
-    await axios
-      .post("http://localhost:4000/user/", { ...body })
-      .then((response) => {
-        console.log(response.data);
-        response.json();
-      });
-  };
-
   const handleSignMessage = ({ publicAddress, nonce }) => {
     console.log(publicAddress, nonce)
     return new Promise((resolve, reject) =>

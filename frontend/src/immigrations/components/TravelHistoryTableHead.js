@@ -45,7 +45,7 @@ const TravelHistoryTableHead = ({
               key={column.id}
               padding="checkbox"
               sortDirection={orderBy === column.id ? order : false}
-              style={{ width: '17.5%', paddingLeft: 15 }}
+              style={{ width: '17.5%', paddingLeft: 15, height: 48 }}
             >
               <Tooltip
                 title="Sort"
@@ -65,7 +65,6 @@ const TravelHistoryTableHead = ({
           ),
           this,
         )}
-        <TableCell style={{ width: '17.5%', paddingLeft: 15 }}>Actions</TableCell>
       </TableRow>
     </TableHead>
   );

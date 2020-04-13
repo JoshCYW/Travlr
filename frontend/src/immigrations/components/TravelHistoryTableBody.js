@@ -66,36 +66,10 @@ class TravelHistoryTableBody extends Component {
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map(n => (
             <TableRow hover tabIndex={0} key={n.timestamp} style={{ width: '100%' }}>
-              <TableCell padding="checkbox" style={{ paddingLeft: 15 }}>{directionHelper(n.direction)}</TableCell>
+              <TableCell padding="checkbox" style={{ paddingLeft: 15, height: ITEM_HEIGHT, }}>{directionHelper(n.direction)}</TableCell>
               <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{tempHelper(n.temp) + '°C'}</TableCell>
               <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{dateHelper(n.timestamp)}</TableCell>
               <TableCell padding="checkbox" style={{ width: '17.5%', paddingLeft: 15 }}>{n.updatedBy}</TableCell>
-              <TableCell style={{ width: '17.5%', paddingLeft: 15 }}>
-                <IconButton
-                  aria-label="More"
-                  aria-owns={open ? 'long-menu' : null}
-                  aria-haspopup="true"
-                  onClick={e => this.handleClick(e, n)}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={this.handleClose}
-                  PaperProps={{
-                    style: {
-                      maxHeight: ITEM_HEIGHT * 4.5,
-                      width: 200,
-                    },
-                  }}
-                >
-                  <MenuItem>
-                    TBD
-                  </MenuItem>
-                </Menu>
-              </TableCell>
             </TableRow>
           ))}
         {emptyRows > 0 && (

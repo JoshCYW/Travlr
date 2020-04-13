@@ -27,11 +27,11 @@ import storage from '../utils/storage';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '43%',
+        width: '68%',
         margin: theme.spacing(1),
     },
     temp: {
-        width: '20%',
+        width: '30%',
         margin: theme.spacing(1),
     },
     button: {
@@ -88,7 +88,7 @@ export const Immigration = (props) => {
         const mongoPromise = new Promise(async (resolve, reject) => {
             let body = {
                 ethPassport: value,
-                direction: stat == 2 ? "ENTRY" : "EXIT",
+                direction: stat == 0 ? "ENTRY" : "EXIT",
                 temp: parseInt(parseFloat(temp) * 10)
             }
             await axios.post(IMMIGRATION_API + immigration, {
@@ -138,7 +138,7 @@ export const Immigration = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 <Box style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
                     {/* input */}
-                    <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <TextField className={classes.root} id="outlined-basic" label="Passport Address" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
                     {/* <FormControl variant="outlined" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">Immigration</InputLabel>

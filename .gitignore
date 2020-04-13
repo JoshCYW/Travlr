@@ -3,7 +3,8 @@
 # dependencies
 /.pnp
 .pnp.js
-/node_modules
+package-lock.json/
+node_modules/
 
 # testing
 /coverage
@@ -23,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 build/
+
+frontend/src/config.js

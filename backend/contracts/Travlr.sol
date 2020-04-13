@@ -24,6 +24,7 @@ contract Travlr is Ownable {
     Government government = new Government(_country);
     government.transferOwnership(_govtOwnerAddress);
     //add the contract to the role
+    // govs.push(address(government));
     _government.add(address(government));
     //returns government contract address
     return address(government);

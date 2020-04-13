@@ -31,6 +31,7 @@ contract EthPassport is Ownable {
   uint public head; //latest record
   uint id = 0;
   mapping (uint => TravelHistory) public travelHistories;
+
   event UpdateTravelHistory(uint head, Direction direction, uint16 temp, address updatedBy, uint next);
 
   function getParentAddress() public view returns (address) {
@@ -52,14 +53,14 @@ contract EthPassport is Ownable {
     }
   }
   
-  function updateTravelHistory(Direction _direction, uint16 _temp) onlyImmigrationOrHotel public { 
+  function updateTravelHistory(Direction _direction, uint16 _temp) public onlyImmigrationOrHotel { 
     TravelHistory memory travelHistory = TravelHistory(head,now,_direction,_temp, msg.sender);
     travelHistories[id] = travelHistory;
     head = id++;
     emit UpdateTravelHistory(head,travelHistory.direction, travelHistory.temp, travelHistory.updatedBy, travelHistory.next);
   }
   
-  function getTravelHistoryWithId(uint _id) public onlyGovernment returns (uint,uint,Direction,uint16,address) {
+  function getTravelHistoryWithId(uint _id) public onlyGovernment returns (uint,uint,Direction,uint16,address){
     return (travelHistories[_id].next,travelHistories[_id].timestamp,travelHistories[_id].direction,travelHistories[_id].temp, travelHistories[_id].updatedBy);
   }
 

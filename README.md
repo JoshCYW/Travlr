@@ -1,6 +1,25 @@
 # Unified Travlr Application with React Frontend/Node backend & Solidity Contracts
 This application is split into 3 layers; backend (.sol code), node (node.js with mongoDB) and frontend (react.js).
 
+
+## Demo Sequence 
+1. Login with Travelr (With account[0])
+2. Create Government entitiy
+3. Login with Government 
+4. Create Hotel/ Immigration entity
+5. Create 2 Passports (Take Note of Contract Addresses of the 2 Passports)
+6. Login with Immigration
+7. Arrival of both Passports
+8. Login with Hotel
+9. Check-in both Passports, Check-out 1
+10. Get Travel History for all (Should display 3 results)
+11. Get Travel History for Checked out Passport (Should display 2 results)
+12. Login with Immigration 
+13. Departure of Checked out Passport
+14. Login with Government
+15. Demonstrate Health Flagging
+16. Verify travel History of both Passports
+
 ## 1. backend 
 
 run ganache using the GUI on localhost:8545

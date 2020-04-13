@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import { Box, Button } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { loadBlockChainData } from '../actions/blockchain';
 import { useDispatch } from 'react-redux';
 
@@ -91,7 +91,7 @@ export const Home = () => {
           <div className={classes.toolbar}>
             <Box style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Typography style={{ fontWeight: 600 }}>
-                Travelr
+                Travlr
               </Typography>
             </Box>
             <Box>

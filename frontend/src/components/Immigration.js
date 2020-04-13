@@ -136,7 +136,7 @@ export const Immigration = (props) => {
     return (
         <Box style={{ paddingTop: 20, marginLeft: props.drawerWidth, height: window.innerHeight }}>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                <Box style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
+                <Box style={{ display: 'flex', justifyContent: 'center', width: '90%' }}>
                     {/* input */}
                     <TextField className={classes.root} id="outlined-basic" label="Passport Address" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
@@ -181,27 +181,6 @@ export const Immigration = (props) => {
                     >
                         Departure (Check-out)
                     </Button>
-                    <Button
-                        onClick={() => getHistory()}
-                        disabled={value.length == 0}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get Immigration History with Dates
-                    </Button>
-                    <Button
-                        onClick={() => getAllHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: 'darkorange' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get All Immigration History
-                    </Button>
                 </Box>
                 <Box width="90%">
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -228,6 +207,29 @@ export const Immigration = (props) => {
                             }}
                         />
                     </MuiPickersUtilsProvider>
+                    <Button
+                        onClick={() => getHistory()}
+                        disabled={value.length == 0}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get Immigration History of Passport with Dates
+                    </Button>
+                    <Box>
+                        <Button
+                        onClick={() => getAllHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: 'darkorange' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Immigration History
+                    </Button>
+                    </Box>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

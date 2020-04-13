@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import TravelHistoryPage from '../immigrations/pages/travelHistory'
 import { PassportForm } from './PassportForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -129,7 +130,7 @@ export const Government = (props) => {
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* input */}
                 <Box className={classes.root} style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-                    <FormControl variant="outlined" className={classes.formControl1}>
+                    {/* <FormControl variant="outlined" className={classes.formControl1}>
                         <InputLabel id="demo-simple-select-outlined-label">Passport Number</InputLabel>
                         <Select
                             labelId="demo-simple-select-outlined-label"
@@ -144,7 +145,7 @@ export const Government = (props) => {
                                 })
                             }
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
                     <Button
                         onClick={() => setVisibility(true)}
                         variant="outlined"
@@ -154,11 +155,30 @@ export const Government = (props) => {
                     >
                         Create Passport
                     </Button>
+                    <Button
+                        onClick={() => setImmigrationVisibility(true)}
+                        variant="outlined"
+                        color="primary"
+                        style={{ width: '30%', height: 56 }}
+                        startIcon={<AddIcon />}
+                    >
+                        Create Immigration
+                    </Button>
+                    <Button
+                        onClick={() => setHotelVisibility(true)}
+                        variant="outlined"
+                        color="primary"
+                        style={{ width: '30%', height: 56 }}
+                        startIcon={<AddIcon />}
+                    >
+                        Create Hotel
+                    </Button>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 30 }}>
                 <Box style={{ width: '80%', }}>
                     {/* buttons */}
+                    <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined"  onChange={(e) => setPassport(e.target.value)}/>
                     <Button
                         onClick={() => flagHealth(false)}
                         variant="contained"
@@ -178,46 +198,6 @@ export const Government = (props) => {
                         startIcon={<HealingIcon />}
                     >
                         Flag Healthy
-                    </Button>
-                    <Button
-                        onClick={() => getHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        disabled={passport.length == 0}
-                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get Travel History
-                    </Button>
-                    <Button
-                        onClick={() => setImmigrationVisibility(true)}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<AddIcon />}
-                    >
-                        Create Immigration
-                    </Button>
-                    <Button
-                        onClick={() => setHotelVisibility(true)}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<AddIcon />}
-                    >
-                        Create Hotel
-                    </Button>
-                    <Button
-                        onClick={() => getHistoryByDates()}
-                        disabled={passport.length == 0}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Filter Travel History by Dates
                     </Button>
                     <p>Status:  <Typography variant='overline' style={{ color: status == false ? 'red' : 'green', fontWeight: 'bold', fontSize: 15 }}>{status == false ? 'Not Healthy' : 'Healthy'}</Typography></p>
                     <Box>
@@ -245,6 +225,30 @@ export const Government = (props) => {
                             }}
                         />
                     </MuiPickersUtilsProvider>
+                    <Button
+                        onClick={() => getHistoryByDates()}
+                        disabled={passport.length == 0}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Filter Travel History by Dates
+                    </Button>
+                </Box>
+                <Box>
+                <Button
+                        onClick={() => getHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        disabled={passport.length == 0}
+                        style={{ backgroundColor: passport.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Travel History
+                    </Button>
                 </Box>
                 </Box>
             </Box>

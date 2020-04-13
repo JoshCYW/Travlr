@@ -11,17 +11,23 @@ run truffle migrate
 
 you will need `Travlr's contract address` that outputs from the migration for the frontend code later on
 
-#### Developer's Note: Steps to deploy contracts
-1. Deploy `Travlr` using acc[0]
-2. Call assignGovernment(acc[1], ctry) in `Travlr`, get Govt Address in output
-3. Deploy `Government` using Govt Address output from step 2
-4. Call createEthPassport(acc[2]) in `Government`, get Eth Passport Address in output
-5. Deploy `EthPassport` using Eth Passport Address output from step 4
-6. Call assignHotel(acc[3]) in `Government`, get Hotel Address in output
-7. Deploy `Hotel` using Hotel Address output from step 6
-8. Call assignImmigration(acc[4]) in `Government`, get Immigration Address in output
-9. Call other functions :)
-
+#### Demo Sequence: 
+1. Login with Travelr (With account[0])
+2. Create Government entitiy
+3. Login with Government 
+4. Create Hotel/ Immigration entity
+5. Create 2 Passports (Take Note of Contract Addresses of the 2 Passports)
+6. Login with Immigration
+7. Arrival of both Passports
+8. Login with Hotel
+9. Check-in both Passports, Check-out 1
+10. Get Travel History for all (Should display 3 results)
+11. Get Travel History for Checked out Passport (Should display 2 results)
+12. Login with Immigration 
+13. Departure of Checked out Passport
+14. Login with Government
+15. Demonstrate Health Flagging
+16. Verify travel History of both Passports
 
 ## 2. node
 node connects to a centralised mongo database which stores an immigration and a hotel's travel history

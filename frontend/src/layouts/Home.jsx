@@ -4,16 +4,8 @@ import history from '../history';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HotelIcon from '@material-ui/icons/Hotel';
-import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
-import GavelIcon from '@material-ui/icons/Gavel';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Box } from '@material-ui/core';
 import { loadBlockChainData } from '../actions/blockchain';
 import { useDispatch } from 'react-redux';
@@ -98,7 +90,7 @@ export const Home = () => {
           <div className={classes.toolbar}>
             <Box style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Typography style={{ fontWeight: 600 }}>
-                Travelr
+                Travlr
               </Typography>
             </Box>
           </div>

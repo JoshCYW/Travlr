@@ -25,7 +25,6 @@ import moment from 'moment'
 import { HOTEL_API } from '../api';
 import storage from "../utils/storage";
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '43%',
@@ -137,7 +136,7 @@ export const Hotel = (props) => {
     return (
         <Box style={{ paddingTop: 20, marginLeft: props.drawerWidth, height: window.innerHeight }}>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                <Box style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
+                <Box style={{ display: 'flex', justifyContent: 'center', width: '90%' }}>
                     {/* input */}
                     <TextField className={classes.root} id="outlined-basic" label="Passport Number" variant="outlined" value={value} onChange={(e) => setValue(e.target.value)} />
                     <TextField className={classes.temp} id="outlined-basic" label="Temperature" variant="outlined" value={temp} onChange={(e) => setTemp(e.target.value)} />
@@ -182,27 +181,6 @@ export const Hotel = (props) => {
                     >
                         Check-out
                     </Button>
-                    <Button
-                        onClick={() => getHistory()}
-                        disabled={value.length == 0}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get Hotel History with Dates
-                    </Button>
-                    <Button
-                        onClick={() => getAllHistory()}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        style={{ backgroundColor: 'darkorange' }}
-                        startIcon={<SearchIcon />}
-                    >
-                        Get All Hotel History
-                    </Button>
                 </Box>
                 <Box width="90%">
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -229,6 +207,29 @@ export const Hotel = (props) => {
                             }}
                         />
                     </MuiPickersUtilsProvider>
+                    <Button
+                        onClick={() => getHistory()}
+                        disabled={value.length == 0}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: value.length > 0 ? 'darkorange' : '#e0e0e0' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get Hotel History of Passport with Dates
+                    </Button>
+                </Box>
+                <Box>
+                    <Button
+                        onClick={() => getAllHistory()}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        style={{ backgroundColor: 'darkorange' }}
+                        startIcon={<SearchIcon />}
+                    >
+                        Get All Hotel History
+                    </Button>
                 </Box>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

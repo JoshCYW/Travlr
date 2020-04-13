@@ -3,9 +3,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import { Box } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { loadBlockChainData } from '../actions/blockchain';
 import { useDispatch } from 'react-redux';
 

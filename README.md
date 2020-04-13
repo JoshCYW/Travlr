@@ -1,17 +1,8 @@
 # Unified Travlr Application with React Frontend/Node backend & Solidity Contracts
 This application is split into 3 layers; backend (.sol code), node (node.js with mongoDB) and frontend (react.js).
 
-## 1. backend 
 
-run ganache using the GUI on localhost:8545
-
-run truffle migrate 
-``cd <backend folder>``
-``truffle migrate``
-
-you will need `Travlr's contract address` that outputs from the migration for the frontend code later on
-
-#### Demo Sequence: 
+## Demo Sequence 
 1. Login with Travelr (With account[0])
 2. Create Government entitiy
 3. Login with Government 
@@ -28,6 +19,28 @@ you will need `Travlr's contract address` that outputs from the migration for th
 14. Login with Government
 15. Demonstrate Health Flagging
 16. Verify travel History of both Passports
+
+## 1. backend 
+
+run ganache using the GUI on localhost:8545
+
+run truffle migrate 
+``cd <backend folder>``
+``truffle migrate``
+
+you will need `Travlr's contract address` that outputs from the migration for the frontend code later on
+
+#### Developer's Note: Steps to deploy contracts
+1. Deploy `Travlr` using acc[0]
+2. Call assignGovernment(acc[1], ctry) in `Travlr`, get Govt Address in output
+3. Deploy `Government` using Govt Address output from step 2
+4. Call createEthPassport(acc[2]) in `Government`, get Eth Passport Address in output
+5. Deploy `EthPassport` using Eth Passport Address output from step 4
+6. Call assignHotel(acc[3]) in `Government`, get Hotel Address in output
+7. Deploy `Hotel` using Hotel Address output from step 6
+8. Call assignImmigration(acc[4]) in `Government`, get Immigration Address in output
+9. Call other functions :)
+
 
 ## 2. node
 node connects to a centralised mongo database which stores an immigration and a hotel's travel history
